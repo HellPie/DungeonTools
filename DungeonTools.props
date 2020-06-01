@@ -1,0 +1,28 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Product>DungeonTools</Product>
+
+        <!-- Version Format: [Major].[Minor].[Supported Minecraft Dungeons Build Number] -->
+        <VersionPrefix>1.0.4142545</VersionPrefix>
+        <VersionSuffix>dogfood</VersionSuffix>
+
+        <Version Condition="'$(Configuration)' == 'Release'">$(VersionPrefix)</Version>
+        <Version Condition="'$(Configuration)' == 'Debug'">$(VersionPrefix)-$(VersionSuffix)</Version>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolsPackageFormat>snupkg</SymbolsPackageFormat>
+        <IncludeSource>true</IncludeSource>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <WarningsAsErrors>true</WarningsAsErrors>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+</Project>

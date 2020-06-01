@@ -1,8 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{FD41756C-3F0D-4C70-BFEE-A83570467BFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runners", "Runners", "{524FDF31-71BE-46CD-BC87-7BD9782157A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{75FF8A1A-2FC9-4D8D-B203-FCF4EE69F3D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Cli", "src\DungeonTools.Cli\DungeonTools.Cli.csproj", "{76348AD8-394D-4A88-A19D-ABF9699529B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{76348AD8-394D-4A88-A19D-ABF9699529B4} = {524FDF31-71BE-46CD-BC87-7BD9782157A9}
 	EndGlobalSection
 EndGlobal
