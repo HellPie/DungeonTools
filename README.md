@@ -16,7 +16,7 @@ Other trademarks referenced herein are property of their respective owners.
 
 ## License
 
-This project is licensed under the [AGPL](LICENSE):
+This project is licensed under the [AGPL 3.0](LICENSE):
 
 ```
 Copyright (C) 2020 Diego Rossi (https://github.com/HellPie)
