@@ -1,13 +1,15 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <Product>DungeonTools</Product>
+        <Company>The DungeonTools Maintainers</Company>
 
-        <!-- Version Format: [Major].[Minor].[Supported Minecraft Dungeons Build Number] -->
-        <VersionPrefix>1.0.4142545</VersionPrefix>
+        <VersionPrefix>0.1.0</VersionPrefix>
         <VersionSuffix>dogfood</VersionSuffix>
+        <VersionDungeons>4142545</VersionDungeons>
 
         <Version Condition="'$(Configuration)' == 'Release'">$(VersionPrefix)</Version>
         <Version Condition="'$(Configuration)' == 'Debug'">$(VersionPrefix)-$(VersionSuffix)</Version>
+        <InformationalVersion>$(Version) ($(VersionDungeons))</InformationalVersion>
     </PropertyGroup>
 
     <PropertyGroup>
