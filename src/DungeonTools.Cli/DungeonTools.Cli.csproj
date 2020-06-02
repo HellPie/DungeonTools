@@ -3,7 +3,7 @@
 
     <PropertyGroup>
         <AssemblyName>dtools</AssemblyName>
-        <OutputType>Exe</OutputType>
+        <Description>CLI for DungeonTools</Description>
     </PropertyGroup>
 
     <PropertyGroup>
