@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{75FF8A1A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Cli", "src\DungeonTools.Cli\DungeonTools.Cli.csproj", "{76348AD8-394D-4A88-A19D-ABF9699529B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.SaveFiles", "src\DungeonTools.SaveFiles\DungeonTools.SaveFiles.csproj", "{7024D015-DB62-431E-920D-4CEF6754872B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,11 +17,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{76348AD8-394D-4A88-A19D-ABF9699529B4} = {524FDF31-71BE-46CD-BC87-7BD9782157A9}
+		{7024D015-DB62-431E-920D-4CEF6754872B} = {FD41756C-3F0D-4C70-BFEE-A83570467BFF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-	    {76348AD8-394D-4A88-A19D-ABF9699529B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-	    {76348AD8-394D-4A88-A19D-ABF9699529B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-	    {76348AD8-394D-4A88-A19D-ABF9699529B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-	    {76348AD8-394D-4A88-A19D-ABF9699529B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76348AD8-394D-4A88-A19D-ABF9699529B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76348AD8-394D-4A88-A19D-ABF9699529B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76348AD8-394D-4A88-A19D-ABF9699529B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76348AD8-394D-4A88-A19D-ABF9699529B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7024D015-DB62-431E-920D-4CEF6754872B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7024D015-DB62-431E-920D-4CEF6754872B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7024D015-DB62-431E-920D-4CEF6754872B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7024D015-DB62-431E-920D-4CEF6754872B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
