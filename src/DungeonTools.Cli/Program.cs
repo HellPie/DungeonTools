@@ -30,7 +30,7 @@ namespace DungeonTools.Cli {
                 Console.Out.WriteLine("[WARNING] Trying to decrypt a .JSON file, which is usually already decrypted.");
             }
 
-            if(!isDatFile && !isDatFile) {
+            if(!isDatFile && !isJsonFile) {
                 Console.Out.WriteLine("[WARNING] This command should only be used with .JSON or .DAT files.");
             }
 
