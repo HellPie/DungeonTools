@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Security.Cryptography;
 
 namespace DungeonTools.SaveFiles.Encryption {
@@ -15,7 +15,7 @@ namespace DungeonTools.SaveFiles.Encryption {
 
             data = encryption.TransformFinalBlock(data, 0, data.Length);
 
-            using MemoryStream stream = new MemoryStream();
+            MemoryStream stream = new MemoryStream();
             stream.Write(Magic);
             stream.Write(data);
             return stream;
@@ -28,9 +28,7 @@ namespace DungeonTools.SaveFiles.Encryption {
             input.Read(data, Magic.Length, data.Length);
 
             data = decryption.TransformFinalBlock(data, 0, data.Length);
-
-            using MemoryStream stream = new MemoryStream(data);
-            return stream;
+            return new MemoryStream(data);
         }
 
         private static Aes GetEncryptionAlgorithm() {
