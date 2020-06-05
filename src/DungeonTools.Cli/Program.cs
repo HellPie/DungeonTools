@@ -41,9 +41,10 @@ namespace DungeonTools.Cli {
             };
 
             int counter = 1;
-            string outFilePath = Path.Combine(fileInfo.DirectoryName, $"{Path.GetFileNameWithoutExtension(fileInfo.Name)}{extension}");
+            string originalOutFilePath = Path.Combine(fileInfo.DirectoryName, $"{Path.GetFileNameWithoutExtension(fileInfo.Name)}{extension}");
+            string outFilePath = originalOutFilePath;
             while(File.Exists(outFilePath)) {
-                outFilePath = $"{outFilePath.Substring(outFilePath.Length - extension.Length)}_{counter++}{extension}";
+                outFilePath = $"{originalOutFilePath.Substring(0, originalOutFilePath.Length - extension.Length)}_{counter++}{extension}";
             }
 
             using FileStream fileStream = fileInfo.OpenRead();
