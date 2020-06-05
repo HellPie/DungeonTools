@@ -10,10 +10,10 @@ namespace DungeonTools.Cli {
             Console.InputEncoding = Encoding.UTF8;
             Console.OutputEncoding = Encoding.UTF8;
 
-            Parser.Default.ParseArguments<RawOptions>(args).MapResult(Main, _ => 1);
+            Parser.Default.ParseArguments<RawOptions>(args).MapResult(RawMain, _ => 1);
         }
 
-        private static int Main(RawOptions options) {
+        private static int RawMain(RawOptions options) {
             FileInfo fileInfo = new FileInfo(options.Input);
             if(fileInfo.Exists) {
                 Console.Error.WriteLine("Selected input file could not be found.");
