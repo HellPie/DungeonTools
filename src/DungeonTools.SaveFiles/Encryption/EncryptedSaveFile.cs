@@ -18,6 +18,7 @@ namespace DungeonTools.SaveFiles.Encryption {
             MemoryStream stream = new MemoryStream();
             stream.Write(Magic);
             stream.Write(data);
+            stream.Seek(0, SeekOrigin.Begin);
             return stream;
         }
 
