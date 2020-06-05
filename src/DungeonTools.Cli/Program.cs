@@ -15,7 +15,7 @@ namespace DungeonTools.Cli {
 
         private static int RawMain(RawOptions options) {
             FileInfo fileInfo = new FileInfo(options.Input);
-            if(fileInfo.Exists) {
+            if(!fileInfo.Exists) {
                 Console.Error.WriteLine("Selected input file could not be found.");
                 return -1;
             }
