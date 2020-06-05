@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
 
 namespace DungeonTools.SaveFiles.Encryption {
@@ -25,7 +25,8 @@ namespace DungeonTools.SaveFiles.Encryption {
             ICryptoTransform decryption = GetEncryptionAlgorithm().CreateDecryptor();
 
             byte[] data = new byte[input.Length - Magic.Length];
-            input.Read(data, Magic.Length, data.Length);
+            input.Seek(Magic.Length, SeekOrigin.Begin);
+            input.Read(data);
 
             data = decryption.TransformFinalBlock(data, 0, data.Length);
             return new MemoryStream(data);
@@ -36,7 +37,7 @@ namespace DungeonTools.SaveFiles.Encryption {
                 Key = Key,
                 IV = Iv,
                 Mode = CipherMode.ECB,
-                Padding = PaddingMode.Zeros,
+                Padding = PaddingMode.None,
             };
         }
     }
