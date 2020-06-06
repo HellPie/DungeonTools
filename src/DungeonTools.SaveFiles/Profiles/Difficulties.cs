@@ -1,9 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace DungeonTools.SaveFiles.Profiles {
+﻿namespace DungeonTools.SaveFiles.Profiles {
     public class Difficulties {
-        [DisallowNull] public string Selected { get; set; }
-        [AllowNull] public string Unlocked { get; set; }
-        [AllowNull] public string Announced { get; set; }
+        public string Selected { get; set; }
+        public string? Unlocked { get; set; }
+        public string? Announced { get; set; }
     }
 }

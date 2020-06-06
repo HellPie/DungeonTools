@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DungeonTools.SaveFiles.Profiles {
     public class ProfileSaveFile {
@@ -10,8 +9,8 @@ namespace DungeonTools.SaveFiles.Profiles {
         public DateTime? CreationDate { get; set; } // Format as "MMM d, yyyy", serialize null as empty string
 
         public Guid PlayerGuid { get; set; }
-        [DisallowNull] public string ProfileName { get; set; } // Can be empty string
-        [DisallowNull] public string SkinName { get; set; }
+        public string ProfileName { get; set; } // Can be empty string
+        public string SkinName { get; set; }
 
         public bool IsCloned { get; set; }
         public bool IsCustomized { get; set; }
