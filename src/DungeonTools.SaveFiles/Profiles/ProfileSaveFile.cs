@@ -27,13 +27,13 @@ namespace DungeonTools.SaveFiles.Profiles {
         public IDictionary<string, uint>? CompletedObjectives { get; set; }
         public IDictionary<string, LevelProgress>? CompletedLevels { get; set; }
         public IEnumerable<string> BonusLevels { get; set; } // Can be empty
-        public IEnumerable CompletedTrials { get; set; } // TODO: Unknown data structure
+        public IEnumerable CompletedTrials { get; set; } // TODO: This is not currently available in the game.
 
         public IEnumerable<Cosmetic> Cosmetics { get; set; } // Can be empty
         public IEnumerable<string> CosmeticsHistory { get; set; } // Can be empty
-        public object? PendingRewards { get; set; } // TODO: Unknown data structure
+        public Reward? PendingReward { get; set; }
 
-        public IEnumerable Inventory { get; set; } // Can be empty
+        public IEnumerable<Item> Inventory { get; set; } // Can be empty
         public IEnumerable<string> ItemsHistory { get; set; } // Can be empty
 
         public LobbyChest? LobbyChest { get; set; }
