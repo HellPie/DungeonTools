@@ -9,7 +9,7 @@ namespace DungeonTools.SaveFiles.Profiles {
         public bool IsUpgraded { get; set; }
 
         public string? EquipmentSlot { get; set; }
-        public uint? InventorySlot { get; set; }
+        public int? InventorySlot { get; set; }
 
         public IEnumerable<Enchantment>? Enchantments { get; set; }
         public IEnumerable<ArmorProperty>? ArmorProperties { get; set; }
