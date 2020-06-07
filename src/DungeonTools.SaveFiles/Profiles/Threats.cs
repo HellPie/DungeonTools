@@ -1,7 +1,7 @@
 ﻿using DungeonTools.SaveFiles.Enums;
 
 namespace DungeonTools.SaveFiles.Profiles {
-    public class Hint {
-        public HintType Type { get; set; }
+    public class Threats {
+        public Threat Unlocked { get; set; }
     }
 }

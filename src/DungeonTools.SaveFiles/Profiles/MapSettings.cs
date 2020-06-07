@@ -1,9 +1,11 @@
-﻿namespace DungeonTools.SaveFiles.Profiles {
+﻿using DungeonTools.SaveFiles.Enums;
+
+namespace DungeonTools.SaveFiles.Profiles {
     public class MapSettings {
-        public string Realm { get; set; }
-        public string Level { get; set; }
-        public string Difficulty { get; set; }
-        public string ThreatLevel { get; set; }
+        public Realm Realm { get; set; }
+        public Level Level { get; set; }
+        public Difficulty Difficulty { get; set; }
+        public Threat ThreatLevel { get; set; }
         public MapPosition VisualPanning { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DungeonTools.SaveFiles.Enums;
 
 namespace DungeonTools.SaveFiles.Profiles {
     public class ProfileSaveFile {
@@ -10,7 +11,7 @@ namespace DungeonTools.SaveFiles.Profiles {
 
         public Guid PlayerGuid { get; set; }
         public string ProfileName { get; set; } // Can be empty string
-        public string SkinName { get; set; }
+        public Skin Skin { get; set; }
 
         public bool IsCloned { get; set; }
         public bool IsCustomized { get; set; }
@@ -20,14 +21,14 @@ namespace DungeonTools.SaveFiles.Profiles {
         public IEnumerable<Currency> Currencies { get; set; } // Can be empty
 
         public Difficulties? Difficulties { get; set; }
-        public ThreatLevels? ThreatLevels { get; set; }
+        public Threats? ThreatLevels { get; set; }
 
 
         public IEnumerable<string> Milestones { get; set; } // Can be empty
         public IDictionary<string, int>? CompletedObjectives { get; set; }
         public IDictionary<string, LevelProgress>? CompletedLevels { get; set; }
-        public IEnumerable<string> BonusLevels { get; set; } // Can be empty
-        public IEnumerable CompletedTrials { get; set; } // TODO: This is not currently available in the game.
+        public IEnumerable<Level> BonusLevels { get; set; } // Can be empty
+        public IEnumerable CompletedTrials { get; set; } // TODO: Data structure unavailable in-game.
 
         public IEnumerable<Cosmetic> Cosmetics { get; set; } // Can be empty
         public IEnumerable<string> CosmeticsHistory { get; set; } // Can be empty

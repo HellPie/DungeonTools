@@ -1,6 +1,8 @@
-﻿namespace DungeonTools.SaveFiles.Profiles {
+﻿using DungeonTools.SaveFiles.Enums;
+
+namespace DungeonTools.SaveFiles.Profiles {
     public class LevelProgress {
-        public string Difficulty { get; set; }
-        public string ThreatLevel { get; set; }
+        public Difficulty Difficulty { get; set; }
+        public Threat ThreatLevel { get; set; }
     }
 }

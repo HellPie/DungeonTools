@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using DungeonTools.SaveFiles.Enums;
 
 namespace DungeonTools.SaveFiles.Profiles {
     public class Item {
-        public string Name { get; set; }
-        public string Rarity { get; set; }
+        public string Name { get; set; } // Should be Enum but possible values are mixed with other game assets
+        public Rarity Rarity { get; set; }
 
-        public int Power { get; set; } // TODO: Check if Item::Power can be a negative value
+        public int Power { get; set; }
         public bool IsUpgraded { get; set; }
 
         public string? EquipmentSlot { get; set; }

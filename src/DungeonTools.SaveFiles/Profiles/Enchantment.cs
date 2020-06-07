@@ -1,6 +1,8 @@
-﻿namespace DungeonTools.SaveFiles.Profiles {
+﻿using DungeonTools.SaveFiles.Enums;
+
+namespace DungeonTools.SaveFiles.Profiles {
     public class Enchantment {
-        public string Name { get; set; }
-        public int Level { get; set; }
+        public EnchantmentType Type { get; set; }
+        public int Level { get; set; } // Min: 0; Max: 3
     }
 }

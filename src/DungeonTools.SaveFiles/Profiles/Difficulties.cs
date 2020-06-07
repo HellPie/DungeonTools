@@ -1,7 +1,9 @@
-﻿namespace DungeonTools.SaveFiles.Profiles {
+﻿using DungeonTools.SaveFiles.Enums;
+
+namespace DungeonTools.SaveFiles.Profiles {
     public class Difficulties {
-        public string Selected { get; set; }
-        public string? Unlocked { get; set; }
-        public string? Announced { get; set; }
+        public Difficulty Selected { get; set; }
+        public Difficulty? Unlocked { get; set; }
+        public Difficulty? Announced { get; set; }
     }
 }
