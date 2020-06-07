@@ -4,31 +4,30 @@ using CommandLine;
 using CommandLine.Text;
 
 namespace DungeonTools.Cli {
-    [Verb("raw", HelpText = "Helper commands for manual operation on saves and profiles.")]
+    [Verb("raw", HelpText = "Command for manual operation on saves and profiles.")]
     internal class RawOptions {
-        [DisallowNull] private readonly string _input;
-        private readonly bool _encrypt;
 
-        [Value(0, HelpText = "Input save file. Can be either a JSON file or a DAT save file.", MetaValue = "FILE", Required = true)]
-        [DisallowNull]
-        public string Input => _input;
+        [Value(0, HelpText = "Input files. Can be a list of JSON files, DAT files or both.", MetaValue = "FILES", Required = true, Min = 1)]
+        public IEnumerable<string> Input { get; }
 
-        [Option('e', "encrypt", Default = false, HelpText = "Whether the file should be encrypted or decrypted.", Required = false)]
-        public bool Encrypt => _encrypt;
+        [Option('n', "overwrite", HelpText = "Whether to overwrite existing files or not.", Required = false, Default = true)]
+        public bool Overwrite { get; }
 
         // ReSharper disable StringLiteralTypo
         [Usage(ApplicationAlias = "dtools")]
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
         public static IEnumerable<Example> Examples => new[] {
-            new Example("Convert a DAT global save file into JSON", new RawOptions("savefile.dat")),
-            new Example("Convert a JSON global save file back into a DAT file", new RawOptions("savefile.json", true)),
-            new Example("Convert a DAT profile file into JSON", new RawOptions("459357397BF844C9A723EEB46902EC78.dat")),
-            new Example("Convert a JSON profile file back into a DAT file", new RawOptions("459357397BF844C9A723EEB46902EC78.json", true)),
+            new Example("Convert an encrypted DAT file into a JSON file", new RawOptions(new[] {"savefile.dat"})),
+            new Example("Convert a list of both encrypted DAT files and JSON files without overwriting existing their counterpart files on output.", new RawOptions(new[] {"savefile.dat", "savefile2.dat"}, false)),
+            new Example("Convert a list of JSON files into encrypted DAT files", new RawOptions(new[] {"459357397BF844C9A723EEB46902EC78.json", "savefile.json", "F8C65EB5184743609ACAE871CCBC6F1F.json"})),
+            new Example("Convert a list of both encrypted DAT files and JSON files into the counterpart files", new RawOptions(new[] { "459357397BF844C9A723EEB46902EC78.dat", "F8C65EB5184743609ACAE871CCBC6F1F.json", "savefile.dat"})),
         };
         // ReSharper restore StringLiteralTypo
 
-        public RawOptions([DisallowNull] string input, bool encrypt = false) {
-            _input = input;
-            _encrypt = encrypt;
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+        public RawOptions(IEnumerable<string> input, bool overwrite = true) {
+            Input = input;
+            Overwrite = overwrite;
         }
     }
 }
