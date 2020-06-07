@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using CommandLine;
 using DungeonTools.SaveFiles.Encryption;
 
 namespace DungeonTools.Cli {
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     internal class Program {
         private static void Main(string[] args) {
             Console.InputEncoding = Encoding.UTF8;
