@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using DungeonTools.SaveFiles.Internal;
 
 namespace DungeonTools.SaveFiles.Settings {
-    public static class SettingsReader {
+    public static class SettingsParser {
         private static readonly JsonSerializerOptions Options = new JsonSerializerOptions();
 
-        static SettingsReader() {
+        static SettingsParser() {
             Options.Converters.Add(new AttributeBasedConverterFactory());
             Options.Converters.Add(new GuidConverterFactory());
             Options.Converters.Add(new JsonStringEnumConverter());
