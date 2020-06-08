@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
+using DungeonTools.SaveFiles.Internal;
 
 namespace DungeonTools.SaveFiles.Enums {
     [SuppressMessage("ReSharper", "IdentifierTypo")]
+    [JsonConverter(typeof(CustomNamingEnumJsonConverter<Level, LowercaseNamingPolicy<Level>>))]
     public enum Level { // Naming: lowercase
         SquidCoast,
         CreeperWoods,

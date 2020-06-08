@@ -4,7 +4,7 @@ namespace DungeonTools.SaveFiles.Enums {
     [SuppressMessage("ReSharper", "IdentifierTypo")]
     [SuppressMessage("ReSharper", "CommentTypo")]
     public enum Cape {
-        Base,
+        Base, // Original: BaseCape
         Hero, // Hero Edition; Original: HeroCape
         Hammer, // Unknown; Original: HammerCape
         IronGolem, // Unknown; Original: IronGolemCape
