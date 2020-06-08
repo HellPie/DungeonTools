@@ -3,6 +3,7 @@
 namespace DungeonTools.SaveFiles.Enums {
     [SuppressMessage("ReSharper", "IdentifierTypo")]
     public enum EnchantmentType {
+        Unset,
         Sharpness,
         Knockback,
         Looting,

@@ -25,5 +25,6 @@ namespace DungeonTools.SaveFiles.Enums {
         DodgeInvulnerability,
         DamageAbsorption,
         SlowResistance,
+        MeleeAttackSpeedBoost,
     }
 }

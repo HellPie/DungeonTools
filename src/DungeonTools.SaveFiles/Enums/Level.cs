@@ -26,6 +26,7 @@ namespace DungeonTools.SaveFiles.Enums {
         HighBlockHallsDaily,
         ObsidianPinnacleDaily,
         CactiCanyonDaily,
+        SoggySwampDaily,
         CreepyCrypt, // Bonus Level
         SoggyCave, // Bonus Level
         UnderHalls, // Bonus Level
