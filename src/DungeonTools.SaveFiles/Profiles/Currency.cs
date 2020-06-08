@@ -1,6 +1,10 @@
-﻿namespace DungeonTools.SaveFiles.Profiles {
+﻿using System.Text.Json.Serialization;
+
+namespace DungeonTools.SaveFiles.Profiles {
     public class Currency {
+        [JsonPropertyName("type")]
         public string Name { get; set; }
-        public int Amount { get; set; }
+        [JsonPropertyName("count")]
+        public uint Amount { get; set; }
     }
 }
