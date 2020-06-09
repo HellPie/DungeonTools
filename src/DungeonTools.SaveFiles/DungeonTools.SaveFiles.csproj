@@ -4,4 +4,11 @@
     <PropertyGroup>
         <Description>Data classes and serialization for DungeonTools.</Description>
     </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DungeonTools.Encryption\DungeonTools.Encryption.csproj">
+            <Name>DungeonTools.Encryption</Name>
+            <Project>FAE04EC0-301F-11D3-BF4B-00C04F79EFBC</Project>
+        </ProjectReference>
+    </ItemGroup>
 </Project>

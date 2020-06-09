@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Cli", "src\Dun
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.SaveFiles", "src\DungeonTools.SaveFiles\DungeonTools.SaveFiles.csproj", "{7024D015-DB62-431E-920D-4CEF6754872B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Encryption", "src\DungeonTools.Encryption\DungeonTools.Encryption.csproj", "{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{76348AD8-394D-4A88-A19D-ABF9699529B4} = {524FDF31-71BE-46CD-BC87-7BD9782157A9}
 		{7024D015-DB62-431E-920D-4CEF6754872B} = {FD41756C-3F0D-4C70-BFEE-A83570467BFF}
+		{72A9DB45-34AB-4C3C-A346-9901C1D7A69C} = {FD41756C-3F0D-4C70-BFEE-A83570467BFF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{76348AD8-394D-4A88-A19D-ABF9699529B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -28,5 +31,9 @@ Global
 		{7024D015-DB62-431E-920D-4CEF6754872B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7024D015-DB62-431E-920D-4CEF6754872B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7024D015-DB62-431E-920D-4CEF6754872B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
