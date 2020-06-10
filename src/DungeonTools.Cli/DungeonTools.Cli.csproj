@@ -15,6 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\DungeonTools.Encryption\DungeonTools.Encryption.csproj" />
         <ProjectReference Include="..\DungeonTools.SaveFiles\DungeonTools.SaveFiles.csproj" />
     </ItemGroup>
 

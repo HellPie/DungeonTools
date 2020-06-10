@@ -3,7 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using CommandLine;
-using DungeonTools.SaveFiles.Encryption;
+using DungeonTools.Encryption;
+using DungeonTools.SaveFiles.Helpers;
 
 namespace DungeonTools.Cli {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
@@ -18,14 +19,7 @@ namespace DungeonTools.Cli {
         private static int RawMain(RawOptions options) {
             bool errorDuringExecution = false;
             foreach(string filePath in options.Input) {
-                FileInfo fileInfo = new FileInfo(filePath);
-                if(!fileInfo.Exists) {
-                    Console.Error.WriteLine($"[  ERROR  ] File \"{filePath}\" could not be found and has been skipped.");
-                    errorDuringExecution = true;
-                    continue;
-                }
-
-                if(!TryProcessFile(fileInfo, options.Overwrite) && !errorDuringExecution) {
+                if(!TryProcessFile(new FileInfo(filePath), options.Overwrite) && !errorDuringExecution) {
                     errorDuringExecution = true;
                 }
             }
@@ -34,49 +28,67 @@ namespace DungeonTools.Cli {
         }
 
         private static bool TryProcessFile(FileInfo file, bool overwrite) {
-            using FileStream inStream = file.OpenRead();
-            FileSupportStatus status = EncryptedSaveFile.GetSupportStatus(inStream);
-            if(status == FileSupportStatus.Unsupported) {
+            if(!file.Exists) {
+                Console.Error.WriteLine($"[  ERROR  ] File \"{file.FullName}\" could not be found and has been skipped.");
+                return false;
+            }
+
+            using FileStream inputStream = file.OpenRead();
+            DataType inputDataType = SaveDataHelper.GetDataType(inputStream);
+            if(inputDataType == DataType.Unsupported) {
                 Console.WriteLine($"[  ERROR  ] File \"{file.Name}\" could not be identified as either JSON data or encrypted data.");
                 return false;
             }
 
-            bool isDatFile = string.Equals(".DAT", file.Extension, StringComparison.OrdinalIgnoreCase);
-            bool isJsonFile = string.Equals(".JSON", file.Extension, StringComparison.OrdinalIgnoreCase);
-            if(isDatFile && status == FileSupportStatus.Unencrypted) {
-                Console.WriteLine($"[ WARNING ] File \"{file.Name}\" is an unencrypted DAT file. Usually only JSON files are unencrypted. It will be encrypted to another DAT file.");
+            (Stream extracted, DataType extractedDataType) = Extract(inputStream);
+            using(extracted) {
+                if(extractedDataType == DataType.Unsupported) {
+                    Console.WriteLine($"[  ERROR  ] Content of file \"{file.Name}\" could not be extracted to a supported format.");
+                    return false;
+                }
+
+                string outputFile = GetOutputFilePath(file, inputDataType == DataType.Encrypted, overwrite);
+                using FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
+                extracted.CopyTo(outputStream);
             }
 
-            if(isJsonFile && status == FileSupportStatus.Encrypted) {
-                Console.WriteLine($"[ WARNING ] File \"{file.Name}\" is an encrypted JSON file. Usually only DAT files are encrypted. It will be decrypted to another JSON file.");
-            }
-
-            if(!isDatFile && !isJsonFile && !string.IsNullOrWhiteSpace(file.Extension)) {
-                Console.WriteLine($"[ WARNING ] File \"{file.Name}\" is not a DAT or JSON file. It has been detected as {(status == FileSupportStatus.Encrypted ? "encrypted" : "unencrypted")} and will be treated as such.");
-            }
-
-            // Build output file name
-
-            string outFilePath = GetOutputFilePath(file, status, overwrite);
-            if(File.Exists(outFilePath)) {
-                File.Delete(outFilePath);
-            }
-
-            using Stream processedStream = status == FileSupportStatus.Encrypted ? EncryptedSaveFile.Decrypt(inStream) : EncryptedSaveFile.Encrypt(inStream);
-            using FileStream outStream = File.OpenWrite(outFilePath);
-            processedStream.CopyTo(outStream);
             return true;
         }
 
-        private static string GetOutputFilePath(FileInfo fileInfo, FileSupportStatus status, bool overwrite) {
+        [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
+        [SuppressMessage("ReSharper", "InvertIf")]
+        private static (Stream Extracted, DataType NewDataType) Extract(Stream data) {
+                DataType type = SaveDataHelper.GetDataType(data);
+                if(type == DataType.Unsupported) {
+                    return (data, DataType.Unsupported);
+                }
+
+                if(type == DataType.UnsafeEncrypted) {
+                    data = SaveDataHelper.ExtractEncryptedData(data);
+                    type = DataType.Encrypted;
+                }
+
+                if(type == DataType.Encrypted) {
+                    IEncryptionService service = new AesEncryptionService();
+                    data = service.Decrypt(data);
+                    type = SaveDataHelper.GetDataType(data);
+                }
+
+                return type switch {
+                    DataType.UnsafeJson => (SaveDataHelper.ExtractSafeJsonData(data), DataType.Json),
+                    _ => (data, DataType.Json),
+                };
+        }
+
+        private static string GetOutputFilePath(FileInfo fileInfo, bool isEncrypted, bool overwrite) {
             string extension = fileInfo.Extension.ToUpperInvariant() switch {
-                "" => status == FileSupportStatus.Encrypted ? ".json" : "", // Special case for Switch which has no file extension
-                _ => status == FileSupportStatus.Encrypted ? ".json" : ".dat",
+                "" => isEncrypted ? ".json" : "", // Special case for Switch which has no file extension
+                _ => isEncrypted ? ".json" : ".dat",
             };
 
             string idealFileName = $"{Path.GetFileNameWithoutExtension(fileInfo.Name)}{extension}";
             if(string.Equals(fileInfo.Name, idealFileName, StringComparison.CurrentCultureIgnoreCase)) {
-                idealFileName = $"{Path.GetFileNameWithoutExtension(idealFileName)}_{(status == FileSupportStatus.Encrypted ? "Decrypted" : "Encrypted")}{extension}";
+                idealFileName = $"{Path.GetFileNameWithoutExtension(idealFileName)}_{(isEncrypted ? "Decrypted" : "Encrypted")}{extension}";
             }
 
             string outFileName = Path.Combine(fileInfo.DirectoryName, idealFileName);
