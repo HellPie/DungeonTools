@@ -14,9 +14,15 @@
         <RuntimeIdentifiers>win-x64;linux-x64;linux-musl-x64;osx-x64</RuntimeIdentifiers>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <DefineConstants>USE_KEYS</DefineConstants>
+    </PropertyGroup>
+
     <ItemGroup>
-        <ProjectReference Include="..\DungeonTools.Encryption\DungeonTools.Encryption.csproj" />
         <ProjectReference Include="..\DungeonTools.SaveFiles\DungeonTools.SaveFiles.csproj" />
+        <ProjectReference Include="..\DungeonTools.Encryption\DungeonTools.Encryption.csproj">
+            <Properties>DefineConstants=USE_KEYS</Properties>
+        </ProjectReference>
     </ItemGroup>
 
     <ItemGroup>
