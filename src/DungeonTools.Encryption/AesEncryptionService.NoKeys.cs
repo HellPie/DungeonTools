@@ -11,6 +11,9 @@
 // Using a different file in a partial class ending in ".Keys.cs" triggers a .gitignore rule so encryption
 // keys are never committed with the project's sources.
 
+// The creation of a file named "AesEncryptionService.Keys.cs" containing only an Algorithm property with a set IV
+// and Key is the only exception to this project's license (AGPL-3.0).
+
 using System.Security.Cryptography;
 
 namespace DungeonTools.Encryption {
