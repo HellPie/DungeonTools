@@ -10,6 +10,8 @@ using DungeonTools.SaveFiles.Helpers;
 namespace DungeonTools.Cli {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     internal class Program {
+        private static readonly IEncryptionService EncryptionService = EncryptionServices.Default;
+
         private static async Task Main(string[] args) {
             Console.InputEncoding = Encoding.UTF8;
             Console.OutputEncoding = Encoding.UTF8;
@@ -23,57 +25,73 @@ namespace DungeonTools.Cli {
             }
         }
 
-        private static async ValueTask<bool> TryProcessFile(FileInfo file, bool overwrite) {
+        private static async ValueTask TryProcessFile(FileInfo file, bool overwrite) {
             if(!file.Exists) {
                 await Console.Error.WriteLineAsync($"[  ERROR  ] File \"{file.FullName}\" could not be found and has been skipped.");
-                return false;
+                return;
             }
 
             await using FileStream inputStream = file.OpenRead();
-            DataType inputDataType = SaveDataHelper.GetDataType(inputStream);
-            if(inputDataType == DataType.Unsupported) {
+            DataType inputType = SaveDataHelper.GetDataType(inputStream);
+            if(inputType == DataType.Unsupported) {
                 Console.WriteLine($"[  ERROR  ] File \"{file.Name}\" could not be identified as either JSON data or encrypted data.");
-                return false;
+                return;
             }
 
-            (Stream extracted, DataType extractedDataType) = await Extract(inputStream);
-            await using(extracted) {
-                if(extractedDataType == DataType.Unsupported) {
-                    Console.WriteLine($"[  ERROR  ] Content of file \"{file.Name}\" could not be extracted to a supported format.");
-                    return false;
+            (Stream processed, DataType processedType) = await (inputType == DataType.Encrypted ? Extract(inputStream) : Combine(inputStream));
+            await using(processed) {
+                if(processedType == DataType.Unsupported) {
+                    Console.WriteLine($"[  ERROR  ] Content of file \"{file.Name}\" could not be converted to a supported format.");
+                    return;
                 }
 
-                string outputFile = GetOutputFilePath(file, inputDataType == DataType.Encrypted, overwrite);
+                string outputFile = GetOutputFilePath(file, inputType == DataType.Encrypted, overwrite);
                 await using FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
-                await extracted.CopyToAsync(outputStream);
+                await processed.CopyToAsync(outputStream);
             }
-
-            return true;
         }
 
         [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
         [SuppressMessage("ReSharper", "InvertIf")]
         private static async ValueTask<(Stream Extracted, DataType NewDataType)> Extract(Stream data) {
-                DataType type = SaveDataHelper.GetDataType(data);
-                if(type == DataType.Unsupported) {
-                    return (data, DataType.Unsupported);
-                }
+            DataType type = SaveDataHelper.GetDataType(data);
+            if(type == DataType.Unsupported) {
+                return (data, DataType.Unsupported);
+            }
 
-                if(type == DataType.UnsafeEncrypted) {
-                    data = SaveDataHelper.ExtractEncryptedData(data);
-                    type = DataType.Encrypted;
-                }
+            if(type == DataType.UnsafeEncrypted) {
+                data = SaveDataHelper.ExtractEncryptedData(data);
+                type = DataType.Encrypted;
+            }
 
-                if(type == DataType.Encrypted) {
-                    IEncryptionService service = EncryptionServices.Default;
-                    data = await service.DecryptAsync(data);
-                    type = SaveDataHelper.GetDataType(data);
-                }
+            if(type == DataType.Encrypted) {
+                data = await EncryptionService.DecryptAsync(data);
+                type = SaveDataHelper.GetDataType(data);
+            }
 
-                return type switch {
-                    DataType.UnsafeJson => (SaveDataHelper.ExtractSafeJsonData(data), DataType.Json),
-                    _ => (data, DataType.Json),
-                };
+            return type switch {
+                DataType.UnsafeJson => (SaveDataHelper.ExtractSafeJsonData(data), DataType.Json),
+                _ => (data, DataType.Json),
+            };
+        }
+
+        [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
+        [SuppressMessage("ReSharper", "InvertIf")]
+        private static async ValueTask<(Stream Combined, DataType NewDataType)> Combine(Stream data) {
+            DataType type = SaveDataHelper.GetDataType(data);
+            if(type == DataType.Unsupported) {
+                return (data, DataType.Unsupported);
+            }
+
+            if(type == DataType.Json || type == DataType.UnsafeJson) {
+                data = await EncryptionService.EncryptAsync(data);
+                type = DataType.Encrypted;
+            }
+
+            return type switch {
+                DataType.Encrypted => (SaveDataHelper.CombineEncryptedData(data), DataType.UnsafeEncrypted),
+                _ => (data, DataType.UnsafeEncrypted),
+            };
         }
 
         private static string GetOutputFilePath(FileInfo fileInfo, bool isEncrypted, bool overwrite) {
