@@ -80,13 +80,13 @@ namespace DungeonTools.Server.Controllers {
 
         private async ValueTask<ApiEncryptionModel> Decrypt(string base64Data) {
             await using MemoryStream encStream = new MemoryStream(Convert.FromBase64String(base64Data));
-            await using Stream decStream = _encryptionService.Decrypt(encStream);
+            await using Stream decStream = await _encryptionService.DecryptAsync(encStream);
             return new ApiEncryptionModel {Decrypted = await GetBase64Data(decStream)};
         }
 
         private async ValueTask<ApiEncryptionModel> Encrypt(string base64Data) {
             await using MemoryStream decStream = new MemoryStream(Convert.FromBase64String(base64Data));
-            await using Stream encStream = _encryptionService.Encrypt(decStream);
+            await using Stream encStream = await _encryptionService.EncryptAsync(decStream);
             return new ApiEncryptionModel {Encrypted = await GetBase64Data(encStream)};
         }
 

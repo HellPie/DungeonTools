@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using CommandLine;
 using DungeonTools.Encryption;
 using DungeonTools.SaveFiles.Helpers;
@@ -9,47 +10,42 @@ using DungeonTools.SaveFiles.Helpers;
 namespace DungeonTools.Cli {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     internal class Program {
-        private static void Main(string[] args) {
+        private static async Task Main(string[] args) {
             Console.InputEncoding = Encoding.UTF8;
             Console.OutputEncoding = Encoding.UTF8;
 
-            Parser.Default.ParseArguments<RawOptions>(args).MapResult(RawMain, _ => 1);
+            await Parser.Default.ParseArguments<RawOptions>(args).WithParsedAsync(RawMain);
         }
 
-        private static int RawMain(RawOptions options) {
-            bool errorDuringExecution = false;
+        private static async Task RawMain(RawOptions options) {
             foreach(string filePath in options.Input) {
-                if(!TryProcessFile(new FileInfo(filePath), options.Overwrite) && !errorDuringExecution) {
-                    errorDuringExecution = true;
-                }
+                await TryProcessFile(new FileInfo(filePath), options.Overwrite);
             }
-
-            return errorDuringExecution ? 1 : 0;
         }
 
-        private static bool TryProcessFile(FileInfo file, bool overwrite) {
+        private static async ValueTask<bool> TryProcessFile(FileInfo file, bool overwrite) {
             if(!file.Exists) {
-                Console.Error.WriteLine($"[  ERROR  ] File \"{file.FullName}\" could not be found and has been skipped.");
+                await Console.Error.WriteLineAsync($"[  ERROR  ] File \"{file.FullName}\" could not be found and has been skipped.");
                 return false;
             }
 
-            using FileStream inputStream = file.OpenRead();
+            await using FileStream inputStream = file.OpenRead();
             DataType inputDataType = SaveDataHelper.GetDataType(inputStream);
             if(inputDataType == DataType.Unsupported) {
                 Console.WriteLine($"[  ERROR  ] File \"{file.Name}\" could not be identified as either JSON data or encrypted data.");
                 return false;
             }
 
-            (Stream extracted, DataType extractedDataType) = Extract(inputStream);
-            using(extracted) {
+            (Stream extracted, DataType extractedDataType) = await Extract(inputStream);
+            await using(extracted) {
                 if(extractedDataType == DataType.Unsupported) {
                     Console.WriteLine($"[  ERROR  ] Content of file \"{file.Name}\" could not be extracted to a supported format.");
                     return false;
                 }
 
                 string outputFile = GetOutputFilePath(file, inputDataType == DataType.Encrypted, overwrite);
-                using FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
-                extracted.CopyTo(outputStream);
+                await using FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
+                await extracted.CopyToAsync(outputStream);
             }
 
             return true;
@@ -57,7 +53,7 @@ namespace DungeonTools.Cli {
 
         [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
         [SuppressMessage("ReSharper", "InvertIf")]
-        private static (Stream Extracted, DataType NewDataType) Extract(Stream data) {
+        private static async ValueTask<(Stream Extracted, DataType NewDataType)> Extract(Stream data) {
                 DataType type = SaveDataHelper.GetDataType(data);
                 if(type == DataType.Unsupported) {
                     return (data, DataType.Unsupported);
@@ -70,7 +66,7 @@ namespace DungeonTools.Cli {
 
                 if(type == DataType.Encrypted) {
                     IEncryptionService service = EncryptionServices.Default;
-                    data = service.Decrypt(data);
+                    data = await service.DecryptAsync(data);
                     type = SaveDataHelper.GetDataType(data);
                 }
 

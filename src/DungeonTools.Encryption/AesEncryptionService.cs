@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace DungeonTools.Encryption {
-    internal partial class AesEncryptionService : IEncryptionService, IEncryptionService.IEncryptionServiceDefaults {
+    internal partial class AesEncryptionService : IEncryptionService {
         /// <inheritdoc />
         public ValueTask<Stream> DecryptAsync(Stream encrypted) {
             return TransformAsync(encrypted, Algorithm.CreateDecryptor());
