@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using DungeonTools.Encryption;
-using DungeonTools.Server.Models;
+using DungeonTools.Encryption.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,7 +30,7 @@ namespace DungeonTools.Server.Controllers {
 
         [HttpPost("decrypt")]
         [RequestSizeLimit(256_000)]
-        public async ValueTask<ActionResult<RawDataModel>> GetDecrypted([FromBody] RawDataModel rawData) {
+        public async ValueTask<ActionResult<ApiEncryptionModel>> GetDecrypted([FromBody] ApiEncryptionModel rawData) {
             string logHeader = $"[{DateTime.Now}] {GetGdprFriendlyAddress(Request.HttpContext.Connection.RemoteIpAddress)}:{Request.HttpContext.Connection.RemotePort} ->";
             using(_logger.BeginScope($"{logHeader} EncryptionController::GetDecrypted")) {
                 if(string.IsNullOrWhiteSpace(rawData.Encrypted)) {
@@ -55,7 +55,7 @@ namespace DungeonTools.Server.Controllers {
 
         [HttpPost("encrypt")]
         [RequestSizeLimit(128_000)]
-        public async ValueTask<ActionResult<RawDataModel>> GetEncrypted([FromBody] RawDataModel rawData) {
+        public async ValueTask<ActionResult<ApiEncryptionModel>> GetEncrypted([FromBody] ApiEncryptionModel rawData) {
             string logHeader = $"[{DateTime.Now}] {GetGdprFriendlyAddress(Request.HttpContext.Connection.RemoteIpAddress)}:{Request.HttpContext.Connection.RemotePort} ->";
             using(_logger.BeginScope($"{logHeader} EncryptionController::GetEncrypted")) {
                 if(string.IsNullOrWhiteSpace(rawData.Decrypted)) {
@@ -78,16 +78,16 @@ namespace DungeonTools.Server.Controllers {
             }
         }
 
-        private async ValueTask<RawDataModel> Decrypt(string base64Data) {
+        private async ValueTask<ApiEncryptionModel> Decrypt(string base64Data) {
             await using MemoryStream encStream = new MemoryStream(Convert.FromBase64String(base64Data));
             await using Stream decStream = _encryptionService.Decrypt(encStream);
-            return new RawDataModel {Decrypted = await GetBase64Data(decStream)};
+            return new ApiEncryptionModel {Decrypted = await GetBase64Data(decStream)};
         }
 
-        private async ValueTask<RawDataModel> Encrypt(string base64Data) {
+        private async ValueTask<ApiEncryptionModel> Encrypt(string base64Data) {
             await using MemoryStream decStream = new MemoryStream(Convert.FromBase64String(base64Data));
             await using Stream encStream = _encryptionService.Encrypt(decStream);
-            return new RawDataModel {Encrypted = await GetBase64Data(encStream)};
+            return new ApiEncryptionModel {Encrypted = await GetBase64Data(encStream)};
         }
 
         private static async ValueTask<string> GetBase64Data(Stream stream) {
