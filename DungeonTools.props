@@ -3,7 +3,7 @@
         <Product>DungeonTools</Product>
         <Company>The DungeonTools Maintainers</Company>
 
-        <VersionPrefix>0.5.0</VersionPrefix>
+        <VersionPrefix>0.6.0</VersionPrefix>
         <VersionSuffix>dogfood</VersionSuffix>
         <VersionDungeons>4142545</VersionDungeons>
 
