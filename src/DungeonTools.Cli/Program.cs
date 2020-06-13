@@ -69,7 +69,7 @@ namespace DungeonTools.Cli {
                 }
 
                 if(type == DataType.Encrypted) {
-                    IEncryptionService service = new AesEncryptionService();
+                    IEncryptionService service = EncryptionServices.Default;
                     data = service.Decrypt(data);
                     type = SaveDataHelper.GetDataType(data);
                 }

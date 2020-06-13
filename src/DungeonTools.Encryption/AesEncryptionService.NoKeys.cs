@@ -17,7 +17,7 @@
 using System.Security.Cryptography;
 
 namespace DungeonTools.Encryption {
-    public partial class AesEncryptionService {
+    internal partial class AesEncryptionService {
         private static readonly SymmetricAlgorithm Algorithm = new AesManaged {
             Mode = CipherMode.ECB,
             Padding = PaddingMode.None,

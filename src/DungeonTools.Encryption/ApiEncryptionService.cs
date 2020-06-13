@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using DungeonTools.Encryption.Models;
 
 namespace DungeonTools.Encryption {
-    public class ApiEncryptionService : IEncryptionService. IEncryptionServiceDefaults {
+    internal class ApiEncryptionService : IEncryptionService. IEncryptionServiceDefaults {
 #if DEBUG
         private const string ClientAddress = "127.0.0.1:5000";
 #else

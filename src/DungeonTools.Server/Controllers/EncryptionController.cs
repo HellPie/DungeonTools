@@ -16,7 +16,7 @@ namespace DungeonTools.Server.Controllers {
         private readonly ILogger<EncryptionController> _logger;
 
         public EncryptionController(ILogger<EncryptionController> logger) {
-            _encryptionService = new AesEncryptionService();
+            _encryptionService = EncryptionServices.LocalKeys;
             _logger = logger;
         }
 
