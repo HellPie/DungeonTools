@@ -9,8 +9,8 @@ namespace DungeonTools.Encryption {
         }
 
         /// <inheritdoc />
-        public Stream Encrypt(Stream unencrypted) {
-            return Transform(unencrypted, Algorithm.CreateEncryptor());
+        public Stream Encrypt(Stream decrypted) {
+            return Transform(decrypted, Algorithm.CreateEncryptor());
         }
 
         private static Stream Transform(Stream input, ICryptoTransform transform) {
