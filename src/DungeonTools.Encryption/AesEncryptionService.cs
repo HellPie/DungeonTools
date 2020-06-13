@@ -1,23 +1,24 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace DungeonTools.Encryption {
-    public partial class AesEncryptionService : IEncryptionService {
+    public partial class AesEncryptionService : IEncryptionService, IEncryptionService.IEncryptionServiceDefaults {
         /// <inheritdoc />
-        public Stream Decrypt(Stream encrypted) {
-            return Transform(encrypted, Algorithm.CreateDecryptor());
+        public ValueTask<Stream> DecryptAsync(Stream encrypted) {
+            return TransformAsync(encrypted, Algorithm.CreateDecryptor());
         }
 
         /// <inheritdoc />
-        public Stream Encrypt(Stream decrypted) {
-            return Transform(decrypted, Algorithm.CreateEncryptor());
+        public ValueTask<Stream> EncryptAsync(Stream decrypted) {
+            return TransformAsync(decrypted, Algorithm.CreateEncryptor());
         }
 
-        private static Stream Transform(Stream input, ICryptoTransform transform) {
+        private static async ValueTask<Stream> TransformAsync(Stream input, ICryptoTransform transform) {
             MemoryStream output = new MemoryStream();
 
-            using(CryptoStream crypto = new CryptoStream(input, transform, CryptoStreamMode.Read, true)) {
-                crypto.CopyTo(output);
+            await using(CryptoStream crypto = new CryptoStream(input, transform, CryptoStreamMode.Read, true)) {
+                await crypto.CopyToAsync(output);
             }
 
             output.Seek(0, SeekOrigin.Begin);
