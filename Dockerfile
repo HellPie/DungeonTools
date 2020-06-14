@@ -1,11 +1,11 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1
-COPY . /app
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /source
 
-RUN ["dotnet", "restore"]
-RUN ["dotnet", "build", "src/DungeonTools.Server/DungeonTools.Server.csproj", "--configuration Release"]
+COPY . ./
+RUN dotnet publish ./src/DungeonTools.Server/DungeonTools.Server.csproj -c Release -o /out
 
-EXPOSE 5000/tcp
-ENV ASPNETCORE_URLS http://*:5000
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+WORKDIR /out
 
-ENTRYPOINT ["dotnet", "run", "--project src/DungeonTools.Server/DungeonTools.Server.csproj", "--configuration Release"]
+COPY --from=build /out ./
+ENTRYPOINT ["dotnet", "DungeonTools.Server.dll"]
