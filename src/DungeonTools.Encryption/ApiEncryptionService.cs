@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
@@ -15,6 +15,10 @@ namespace DungeonTools.Encryption {
 
         private static readonly HttpClient Client = new HttpClient {
             BaseAddress = new Uri(ClientAddress),
+        };
+
+        private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions {
+            PropertyNameCaseInsensitive = true,
         };
 
         /// <inheritdoc />
@@ -37,7 +41,7 @@ namespace DungeonTools.Encryption {
             using HttpContent content = new StringContent(JsonSerializer.Serialize(input));
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = await Client.PostAsync(endpoint, content);
-            return JsonSerializer.Deserialize<ApiEncryptionModel>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<ApiEncryptionModel>(await response.Content.ReadAsStringAsync(), SerializerOptions);
         }
 
         private static async ValueTask<string> GetBase64Data(Stream stream) {
