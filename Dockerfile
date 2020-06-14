@@ -8,4 +8,5 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /out
 
 COPY --from=build /out ./
+EXPOSE 80
 ENTRYPOINT ["dotnet", "DungeonTools.Server.dll"]
