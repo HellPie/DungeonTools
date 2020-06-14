@@ -4,7 +4,13 @@ Libraries and tools to interact with [Minecraft: Dungeons](https://www.minecraft
  
 ## Downloads
 
-You must build it from source for now.
+The latest release is currently available through [GitHub Releases](https://github.com/HellPie/DungeonTools/releases) for this repository.
+
+## Build it Yourself
+
+You can build this repository by cloning it and running `dotnet restore`, `dotnet build` and `dotnet publish`.
+
+Refer to the [official `dotnet` documentation](https://docs.microsoft.com/en-us/dotnet/core/tools/) to learn how to use the `dotnet` tooling. This repository will not provide further instructions.
 
 ## Legal Disclaimer
 
