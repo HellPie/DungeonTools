@@ -48,15 +48,14 @@ namespace DungeonTools.Cli {
             await using FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
             await processed.CopyToAsync(outputStream);
         }
-
-        [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
+        
         private static async ValueTask<Stream?> Decrypt(Stream data) {
-            Stream decrypted = await EncryptionService.Current.DecryptAsync(data);
+            Stream decrypted = await EncryptionProviders.Current.DecryptAsync(data);
             return SaveFileHandler.RemoveTrailingZeroes(decrypted);
         }
         
         private static async ValueTask<Stream?> Encrypt(Stream data) {
-            await using Stream encrypted = await EncryptionService.Current.EncryptAsync(data);
+            await using Stream encrypted = await EncryptionProviders.Current.EncryptAsync(data);
             return SaveFileHandler.PrependMagicToEncrypted(encrypted);
         }
 

@@ -1,12 +1,12 @@
 ﻿namespace DungeonTools.Save.File {
-    public class EncryptionService {
+    public class EncryptionProviders {
         public static readonly IEncryptionProvider Current;
 
         public static readonly IEncryptionProvider Local = new AesEncryptionProvider();
         public static readonly IEncryptionProvider Remote = new RemoteEncryptionProvider();
 
 
-        static EncryptionService() {
+        static EncryptionProviders() {
 #if USE_KEYS
             Current = Local;
 #else
