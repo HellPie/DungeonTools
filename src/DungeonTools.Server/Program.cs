@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace DungeonTools.Server {
     public static class Program {
@@ -9,7 +10,13 @@ namespace DungeonTools.Server {
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) {
-            return Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(i => i.UseStartup<Startup>());
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(i => {
+                    i.ClearProviders();
+                    i.AddConsole(o => o.IncludeScopes = true);
+                    i.AddDebug();
+                })
+                .ConfigureWebHostDefaults(i => i.UseStartup<Startup>());
         }
     }
 }
