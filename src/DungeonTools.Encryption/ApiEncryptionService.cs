@@ -35,6 +35,7 @@ namespace DungeonTools.Encryption {
 
         private static async ValueTask<ApiEncryptionModel> CallEndpoint(ApiEncryptionModel input, string endpoint) {
             using HttpContent content = new StringContent(JsonSerializer.Serialize(input));
+            content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = await Client.PostAsync(endpoint, content);
             return JsonSerializer.Deserialize<ApiEncryptionModel>(await response.Content.ReadAsStringAsync());
         }
