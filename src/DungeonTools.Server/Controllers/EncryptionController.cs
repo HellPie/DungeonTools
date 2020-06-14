@@ -3,20 +3,20 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using DungeonTools.Encryption;
-using DungeonTools.Encryption.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using static DungeonTools.Encryption.RemoteEncryptionProvider;
 
 namespace DungeonTools.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class EncryptionController : Controller {
-        private readonly IEncryptionService _encryptionService;
+        private readonly IEncryptionProvider _encryptionProvider;
         private readonly ILogger<EncryptionController> _logger;
 
-        public EncryptionController(ILogger<EncryptionController> logger) {
-            _encryptionService = EncryptionServices.LocalKeys;
+        public EncryptionController(IEncryptionProvider provider, ILogger<EncryptionController> logger) {
+            _encryptionProvider = provider;
             _logger = logger;
         }
 
@@ -80,25 +80,15 @@ namespace DungeonTools.Server.Controllers {
 
         private async ValueTask<ApiEncryptionModel> Decrypt(string base64Data) {
             await using MemoryStream encStream = new MemoryStream(Convert.FromBase64String(base64Data));
-            await using Stream decStream = await _encryptionService.DecryptAsync(encStream);
+            await using Stream decStream = await _encryptionProvider.DecryptAsync(encStream);
+            SaveFileHandler.RemoveTrailingZeroes(decStream);
             return new ApiEncryptionModel {Decrypted = await GetBase64Data(decStream)};
         }
 
         private async ValueTask<ApiEncryptionModel> Encrypt(string base64Data) {
             await using MemoryStream decStream = new MemoryStream(Convert.FromBase64String(base64Data));
-            await using Stream encStream = await _encryptionService.EncryptAsync(decStream);
+            await using Stream encStream = await _encryptionProvider.EncryptAsync(decStream);
             return new ApiEncryptionModel {Encrypted = await GetBase64Data(encStream)};
-        }
-
-        private static async ValueTask<string> GetBase64Data(Stream stream) {
-            byte[] data = new byte[stream.Length];
-            await stream.ReadAsync(data);
-
-            return Convert.ToBase64String(data);
-        }
-
-        private static string PadBase64String(string base64) {
-            return base64.PadRight(base64.Length + (4 - base64.Length % 4) % 4, '=');
         }
 
         private static string GetGdprFriendlyAddress(IPAddress address) {

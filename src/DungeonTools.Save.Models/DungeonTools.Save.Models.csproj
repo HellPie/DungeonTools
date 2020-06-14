@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\..\DungeonTools.props" />
+
+    <PropertyGroup>
+        <Description>Data classes and serialization for DungeonTools.</Description>
+        <RootNamespace>DungeonTools.SaveFiles</RootNamespace>
+    </PropertyGroup>
+</Project>
