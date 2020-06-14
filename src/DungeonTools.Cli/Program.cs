@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
@@ -38,14 +38,14 @@ namespace DungeonTools.Cli {
                 return;
             }
 
-            (Stream processed, DataType processedType) = await (inputType == DataType.Encrypted ? Extract(inputStream) : Combine(inputStream));
+            (Stream processed, DataType processedType) = await (inputType == DataType.UnsafeEncrypted ? Extract(inputStream) : Combine(inputStream));
             await using(processed) {
                 if(processedType == DataType.Unsupported) {
                     Console.WriteLine($"[  ERROR  ] Content of file \"{file.Name}\" could not be converted to a supported format.");
                     return;
                 }
 
-                string outputFile = GetOutputFilePath(file, inputType == DataType.Encrypted, overwrite);
+                string outputFile = GetOutputFilePath(file, inputType == DataType.UnsafeEncrypted, overwrite);
                 await using FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
                 await processed.CopyToAsync(outputStream);
             }
