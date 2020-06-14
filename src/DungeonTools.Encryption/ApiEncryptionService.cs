@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
@@ -10,7 +10,7 @@ namespace DungeonTools.Encryption {
 #if DEBUG
         private const string ClientAddress = "127.0.0.1:5000";
 #else
-        private const string ClientAddress = "dungeons.tools";
+        private const string ClientAddress = "https://dungeons.tools";
 #endif
 
         private static readonly HttpClient Client = new HttpClient {
