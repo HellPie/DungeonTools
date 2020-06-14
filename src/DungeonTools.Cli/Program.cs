@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
@@ -38,63 +38,40 @@ namespace DungeonTools.Cli {
                 return;
             }
 
-            (Stream processed, DataType processedType) = await (inputType == DataType.UnsafeEncrypted ? Extract(inputStream) : Combine(inputStream));
-            await using(processed) {
-                if(processedType == DataType.Unsupported) {
-                    Console.WriteLine($"[  ERROR  ] Content of file \"{file.Name}\" could not be converted to a supported format.");
-                    return;
-                }
-
-                string outputFile = GetOutputFilePath(file, inputType == DataType.UnsafeEncrypted, overwrite);
-                await using FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
-                await processed.CopyToAsync(outputStream);
+            await using Stream? processed = inputType == DataType.UnsafeEncrypted ? await Extract(inputStream) : await Combine(inputStream);
+            if(processed == null) {
+                Console.WriteLine($"[  ERROR  ] Content of file \"{file.Name}\" could not be converted to a supported format.");
+                return;
             }
+
+            string outputFile = GetOutputFilePath(file, inputType == DataType.UnsafeEncrypted, overwrite);
+            await using FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
+            await processed.CopyToAsync(outputStream);
         }
 
-        [SuppressMessage("ReSharper", "TailRecursiveCall")]
-        private static async ValueTask<(Stream Extracted, DataType NewDataType)> Extract(Stream data, DataType? original = null) {
-            DataType type = original ?? SaveDataHelper.GetDataType(data);
-            switch(type) {
-                case DataType.UnsafeEncrypted: {
-                    await using Stream stream = SaveDataHelper.ExtractEncryptedData(data);
-                    return await Extract(data, DataType.Encrypted);
-                }
-                case DataType.Encrypted: {
-                    await using Stream stream = await EncryptionService.DecryptAsync(data);
-                    return await Extract(stream);
-                }
-                case DataType.UnsafeJson:
-                    return (SaveDataHelper.ExtractSafeJsonData(data), DataType.Json);
-                case DataType.Json:
-                    return (data, DataType.Json);
-                case DataType.Unsupported:
-                    return (data, DataType.Unsupported);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), "Invalid data type detected.");
+        [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
+        private static async ValueTask<Stream?> Extract(Stream data) {
+            await using Stream encrypted = SaveDataHelper.ExtractEncryptedData(data);
+            Stream decrypted = await EncryptionService.DecryptAsync(encrypted);
+
+            DataType newType = SaveDataHelper.GetDataType(decrypted);
+            if(newType == DataType.Unsupported) {
+                return null;
             }
+
+            if(newType == DataType.Json) {
+                return decrypted;
+            }
+
+            // Can only be DataType.UnsafeJson at this point
+            Stream json = SaveDataHelper.ExtractSafeJsonData(decrypted);
+            await decrypted.DisposeAsync();
+            return json;
         }
 
-        [SuppressMessage("ReSharper", "TailRecursiveCall")]
-        private static async ValueTask<(Stream Combined, DataType NewDataType)> Combine(Stream data, DataType? original = null) {
-            DataType type = original ?? SaveDataHelper.GetDataType(data);
-            switch(type) {
-                case DataType.UnsafeEncrypted:
-                    return (data, DataType.UnsafeEncrypted);
-                case DataType.Encrypted:
-                    return (SaveDataHelper.CombineEncryptedData(data), DataType.UnsafeEncrypted);
-                case DataType.UnsafeJson: {
-                    await using Stream stream = await EncryptionService.EncryptAsync(data);
-                    return await Combine(stream, DataType.Encrypted);
-                }
-                case DataType.Json: {
-                    await using Stream stream = await EncryptionService.EncryptAsync(data);
-                    return await Combine(stream, DataType.Encrypted);
-                }
-                case DataType.Unsupported:
-                    return (data, DataType.Unsupported);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), "Invalid data type detected.");
-            }
+        private static async ValueTask<Stream?> Combine(Stream data) {
+            await using Stream encrypted = await EncryptionService.EncryptAsync(data);
+            return SaveDataHelper.CombineEncryptedData(encrypted);
         }
 
         private static string GetOutputFilePath(FileInfo fileInfo, bool isEncrypted, bool overwrite) {
