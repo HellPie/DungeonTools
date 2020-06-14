@@ -1,3 +1,4 @@
+using DungeonTools.Save.File;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ namespace DungeonTools.Server {
 
         public void ConfigureServices(IServiceCollection services) {
             services.AddControllers();
+            services.AddSingleton(EncryptionProviders.Local);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {

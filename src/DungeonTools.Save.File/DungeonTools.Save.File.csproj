@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\..\DungeonTools.props" />
+
+    <PropertyGroup>
+        <Description>Processing of encrypted data for DungeonTools.</Description>
+        <RootNamespace>DungeonTools.Save.File</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DefineConstants>USE_KEYS</DefineConstants>
+    </PropertyGroup>
+</Project>

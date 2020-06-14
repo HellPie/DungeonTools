@@ -5,9 +5,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runners", "Runners", "{524F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{75FF8A1A-2FC9-4D8D-B203-FCF4EE69F3D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Encryption", "src\DungeonTools.Encryption\DungeonTools.Encryption.csproj", "{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Save.File", "src\DungeonTools.Save.File\DungeonTools.Save.File.csproj", "{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.SaveFiles", "src\DungeonTools.SaveFiles\DungeonTools.SaveFiles.csproj", "{7024D015-DB62-431E-920D-4CEF6754872B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Save.Models", "src\DungeonTools.Save.Models\DungeonTools.Save.Models.csproj", "{7024D015-DB62-431E-920D-4CEF6754872B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Cli", "src\DungeonTools.Cli\DungeonTools.Cli.csproj", "{76348AD8-394D-4A88-A19D-ABF9699529B4}"
 EndProject
