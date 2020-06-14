@@ -3,8 +3,8 @@
         <Product>DungeonTools</Product>
         <Company>The DungeonTools Maintainers</Company>
 
-        <VersionPrefix>0.7.0</VersionPrefix>
-        <VersionSuffix>dogfood</VersionSuffix>
+        <VersionPrefix>1.0.0</VersionPrefix>
+        <VersionSuffix>beta</VersionSuffix>
         <VersionDungeons>4142545</VersionDungeons>
 
         <Version Condition="'$(Configuration)' == 'Release'">$(VersionPrefix)</Version>
