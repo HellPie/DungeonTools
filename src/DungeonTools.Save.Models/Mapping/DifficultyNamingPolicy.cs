@@ -1,6 +1,6 @@
-﻿using DungeonTools.SaveFiles.Enums;
+﻿using DungeonTools.Save.Models.Enums;
 
-namespace DungeonTools.SaveFiles.Mapping {
+namespace DungeonTools.Save.Models.Mapping {
     public class DifficultyNamingPolicy : INamingPolicy<Difficulty> {
         /// <inheritdoc />
         public Difficulty ConvertName(string name) {

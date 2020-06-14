@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DungeonTools.Encryption {
+namespace DungeonTools.Save.File {
     public class RemoteEncryptionProvider : IEncryptionProvider {
 #if DEBUG
         private const string ClientAddress = "http://127.0.0.1:5000";

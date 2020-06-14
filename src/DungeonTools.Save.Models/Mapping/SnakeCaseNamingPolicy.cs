@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace DungeonTools.SaveFiles.Mapping {
+namespace DungeonTools.Save.Models.Mapping {
     public class SnakeCaseNamingPolicy<T> : INamingPolicy<T> where T : Enum {
         /// <inheritdoc />
         public T ConvertName(string name) {

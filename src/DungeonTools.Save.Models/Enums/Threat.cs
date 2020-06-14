@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using DungeonTools.SaveFiles.Mapping;
+using DungeonTools.Save.Models.Mapping;
 
-namespace DungeonTools.SaveFiles.Enums {
+namespace DungeonTools.Save.Models.Enums {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [JsonConverter(typeof(CustomNamingEnumJsonConverter<Threat, ThreatNamingPolicy>))]
     public enum Threat {

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using DungeonTools.SaveFiles.Enums;
+using DungeonTools.Save.Models.Enums;
 
-namespace DungeonTools.SaveFiles.Settings {
+namespace DungeonTools.Save.Models.Settings {
     public class KeyBinding {
         [JsonPropertyName("platform")]
         public Platform Platform { get; set; }

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using DungeonTools.SaveFiles.Mapping;
+using DungeonTools.Save.Models.Mapping;
 
-namespace DungeonTools.SaveFiles.Enums {
+namespace DungeonTools.Save.Models.Enums {
     [SuppressMessage("ReSharper", "IdentifierTypo")]
     [SuppressMessage("ReSharper", "CommentTypo")]
     [JsonConverter(typeof(CustomNamingEnumJsonConverter<Realm, RealmNamingPolicy>))]

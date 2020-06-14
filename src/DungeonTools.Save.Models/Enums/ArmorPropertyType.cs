@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DungeonTools.SaveFiles.Enums {
+namespace DungeonTools.Save.Models.Enums {
     [SuppressMessage("ReSharper", "IdentifierTypo")]
     public enum ArmorPropertyType {
         SoulGatheringBoost,

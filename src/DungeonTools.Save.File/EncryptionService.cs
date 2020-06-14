@@ -1,4 +1,4 @@
-﻿namespace DungeonTools.Encryption {
+﻿namespace DungeonTools.Save.File {
     public class EncryptionService {
         public static readonly IEncryptionProvider Current;
 

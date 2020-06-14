@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using DungeonTools.SaveFiles.Enums;
+using DungeonTools.Save.Models.Enums;
 
-namespace DungeonTools.SaveFiles.Profiles {
+namespace DungeonTools.Save.Models.Profiles {
     public class Cosmetic {
         [JsonPropertyName("id")]
         public string Name { get; set; }

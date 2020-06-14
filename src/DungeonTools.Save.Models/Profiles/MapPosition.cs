@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using DungeonTools.SaveFiles.Mapping;
+using DungeonTools.Save.Models.Mapping;
 
-namespace DungeonTools.SaveFiles.Profiles {
+namespace DungeonTools.Save.Models.Profiles {
     public class MapPosition {
         [JsonPropertyName("x")]
         [JsonConverter(typeof(TextDoubleJsonConverter))]

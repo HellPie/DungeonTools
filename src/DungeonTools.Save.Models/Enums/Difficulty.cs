@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using DungeonTools.SaveFiles.Mapping;
+using DungeonTools.Save.Models.Mapping;
 
-namespace DungeonTools.SaveFiles.Enums {
+namespace DungeonTools.Save.Models.Enums {
     [JsonConverter(typeof(CustomNamingEnumJsonConverter<Difficulty, DifficultyNamingPolicy>))]
     public enum Difficulty {
         Default, // Original: Difficulty_1

@@ -2,9 +2,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using DungeonTools.SaveFiles.Mapping;
+using DungeonTools.Save.Models.Mapping;
 
-namespace DungeonTools.SaveFiles.Settings {
+namespace DungeonTools.Save.Models.Settings {
     public static class SettingsParser {
         private static readonly JsonSerializerOptions Options = new JsonSerializerOptions();
 

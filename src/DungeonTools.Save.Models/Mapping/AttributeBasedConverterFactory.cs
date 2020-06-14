@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DungeonTools.SaveFiles.Mapping {
+namespace DungeonTools.Save.Models.Mapping {
     public class AttributeBasedConverterFactory : JsonConverterFactory {
         /// <inheritdoc />
         public override bool CanConvert(Type typeToConvert) {

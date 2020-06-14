@@ -1,6 +1,6 @@
-﻿using DungeonTools.SaveFiles.Enums;
+﻿using DungeonTools.Save.Models.Enums;
 
-namespace DungeonTools.SaveFiles.Mapping {
+namespace DungeonTools.Save.Models.Mapping {
     public class ThreatNamingPolicy : INamingPolicy<Threat> {
         /// <inheritdoc />
         public Threat ConvertName(string name) {

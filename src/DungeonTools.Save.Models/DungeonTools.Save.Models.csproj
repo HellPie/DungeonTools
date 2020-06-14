@@ -3,6 +3,6 @@
 
     <PropertyGroup>
         <Description>Data classes and serialization for DungeonTools.</Description>
-        <RootNamespace>DungeonTools.SaveFiles</RootNamespace>
+        <RootNamespace>DungeonTools.Save.Models</RootNamespace>
     </PropertyGroup>
 </Project>

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using DungeonTools.SaveFiles.Enums;
+using DungeonTools.Save.Models.Enums;
 
-namespace DungeonTools.SaveFiles.Profiles {
+namespace DungeonTools.Save.Models.Profiles {
     public class Item {
         [JsonPropertyName("type")]
         public string Name { get; set; } // Should be Enum but possible values are mixed with other game assets

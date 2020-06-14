@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DungeonTools.SaveFiles.Mapping {
+namespace DungeonTools.Save.Models.Mapping {
     public class EpochDateTimeJsonConverter : JsonConverter<DateTime> {
         /// <inheritdoc />
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {

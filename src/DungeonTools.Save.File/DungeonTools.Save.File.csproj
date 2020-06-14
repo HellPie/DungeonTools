@@ -3,7 +3,7 @@
 
     <PropertyGroup>
         <Description>Processing of encrypted data for DungeonTools.</Description>
-        <RootNamespace>DungeonTools.Encryption</RootNamespace>
+        <RootNamespace>DungeonTools.Save.File</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

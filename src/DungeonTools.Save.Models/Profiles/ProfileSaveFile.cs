@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using DungeonTools.SaveFiles.Enums;
-using DungeonTools.SaveFiles.Mapping;
+using DungeonTools.Save.Models.Enums;
+using DungeonTools.Save.Models.Mapping;
 
-namespace DungeonTools.SaveFiles.Profiles {
+namespace DungeonTools.Save.Models.Profiles {
     public class ProfileSaveFile {
         [JsonPropertyName("version")]
         public int Version { get; set; }

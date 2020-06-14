@@ -3,9 +3,9 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using DungeonTools.SaveFiles.Mapping;
+using DungeonTools.Save.Models.Mapping;
 
-namespace DungeonTools.SaveFiles.Profiles {
+namespace DungeonTools.Save.Models.Profiles {
     public static class ProfileParser {
         private static readonly JsonSerializerOptions Options = new JsonSerializerOptions();
 

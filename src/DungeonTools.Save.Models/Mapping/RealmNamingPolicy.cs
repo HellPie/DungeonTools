@@ -1,7 +1,7 @@
 ﻿using System;
-using DungeonTools.SaveFiles.Enums;
+using DungeonTools.Save.Models.Enums;
 
-namespace DungeonTools.SaveFiles.Mapping {
+namespace DungeonTools.Save.Models.Mapping {
     public class RealmNamingPolicy : INamingPolicy<Realm> {
         /// <inheritdoc />
         public Realm ConvertName(string name) {

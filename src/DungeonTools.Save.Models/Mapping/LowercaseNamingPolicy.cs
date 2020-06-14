@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DungeonTools.SaveFiles.Mapping {
+namespace DungeonTools.Save.Models.Mapping {
     public class LowercaseNamingPolicy<T> : INamingPolicy<T> where T : Enum {
         /// <inheritdoc />
         public T ConvertName(string name) {

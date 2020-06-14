@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using CommandLine;
-using DungeonTools.Encryption;
+using DungeonTools.Save.File;
 
 namespace DungeonTools.Cli {
     public static class Program {

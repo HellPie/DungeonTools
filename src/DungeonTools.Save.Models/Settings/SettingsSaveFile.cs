@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using DungeonTools.SaveFiles.Enums;
+using DungeonTools.Save.Models.Enums;
 
-namespace DungeonTools.SaveFiles.Settings {
+namespace DungeonTools.Save.Models.Settings {
     public class SettingsSaveFile {
         [JsonPropertyName("version")]
         public int Version { get; set; }

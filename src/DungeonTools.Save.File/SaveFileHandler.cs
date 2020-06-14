@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DungeonTools.Encryption {
+namespace DungeonTools.Save.File {
     public static class SaveFileHandler {
         private static readonly byte[] Magic1 = {0x44, 0x30, 0x30, 0x31};
         private static readonly byte[] Magic2 = {0x00, 0x00, 0x00, 0x00};

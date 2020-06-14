@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace DungeonTools.Encryption {
+namespace DungeonTools.Save.File {
     public partial class AesEncryptionProvider : IEncryptionProvider {
         public static readonly SymmetricAlgorithm Algorithm = new AesManaged {
             Mode = CipherMode.ECB,
