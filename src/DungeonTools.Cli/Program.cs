@@ -55,7 +55,15 @@ namespace DungeonTools.Cli {
         }
         
         private static async ValueTask<Stream?> Encrypt(Stream data) {
-            await using Stream encrypted = await EncryptionProviders.Current.EncryptAsync(data);
+            await using var memStreamHax = new MemoryStream((int)(data.Length-data.Position));
+            await data.CopyToAsync(memStreamHax);
+            while (memStreamHax.Position % 16 != 0)
+            {
+                memStreamHax.Write(new byte[] {0});
+            }
+            memStreamHax.Position = 0;
+            
+            await using Stream encrypted = await EncryptionProviders.Current.EncryptAsync(memStreamHax);
             return SaveFileHandler.PrependMagicToEncrypted(encrypted);
         }
 
