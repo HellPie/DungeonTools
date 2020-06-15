@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,14 +29,7 @@ namespace DungeonTools.Cli {
             await using FileStream inputStream = file.OpenRead();
             bool encrypted = SaveFileHandler.IsFileEncrypted(inputStream);
 
-            Stream? processed;
-            if (encrypted)
-            {
-                processed = await Decrypt(inputStream);
-            } else
-            {
-                processed = await Encrypt(inputStream);
-            }
+            Stream? processed = encrypted ? await Decrypt(inputStream) : await Encrypt(inputStream);
             if(processed == null) {
                 await Console.Out.WriteLineAsync($"[  ERROR  ] Content of file \"{file.Name}\" could not be converted to a supported format.");
                 return;
@@ -48,12 +40,12 @@ namespace DungeonTools.Cli {
             await using FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
             await processed.CopyToAsync(outputStream);
         }
-        
+
         private static async ValueTask<Stream?> Decrypt(Stream data) {
             Stream decrypted = await EncryptionProviders.Current.DecryptAsync(data);
             return SaveFileHandler.RemoveTrailingZeroes(decrypted);
         }
-        
+
         private static async ValueTask<Stream?> Encrypt(Stream data) {
             await using Stream encrypted = await EncryptionProviders.Current.EncryptAsync(data);
             return SaveFileHandler.PrependMagicToEncrypted(encrypted);
