@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -13,14 +12,13 @@ namespace DungeonTools.Save.File {
         };
 
         /// <inheritdoc />
-        public async ValueTask<Stream> DecryptAsync(Stream encrypted) {
-            return await TransformAsync(encrypted, Algorithm.CreateDecryptor());
+        public ValueTask<Stream> DecryptAsync(Stream encrypted) {
+            return TransformAsync(encrypted, Algorithm.CreateDecryptor());
         }
 
         /// <inheritdoc />
-        public async ValueTask<Stream> EncryptAsync(Stream decrypted) {
-            await using Stream padded = await GetPaddedToBlock(decrypted);
-            return await TransformAsync(padded, Algorithm.CreateEncryptor());
+        public ValueTask<Stream> EncryptAsync(Stream decrypted) {
+            return TransformAsync(decrypted, Algorithm.CreateEncryptor());
         }
 
         private static async ValueTask<Stream> TransformAsync(Stream input, ICryptoTransform transform) {
@@ -31,13 +29,6 @@ namespace DungeonTools.Save.File {
             }
 
             output.Seek(0, SeekOrigin.Begin);
-            return output;
-        }
-
-        private static async ValueTask<Stream> GetPaddedToBlock(Stream input) {
-            MemoryStream output = new MemoryStream();
-            await input.CopyToAsync(output);
-            await output.WriteAsync(Enumerable.Repeat((byte) ' ', (int) (input.Length % 16)).ToArray());
             return output;
         }
     }
