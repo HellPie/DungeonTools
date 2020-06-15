@@ -13,7 +13,7 @@
 
 // The creation of a file named "AesEncryptionProvider.Keys.cs" containing GetKey and GetIV methods is the only exception to this project's license (AGPL-3.0).
 
-namespace DungeonTools.Encryption {
+namespace DungeonTools.Save.File {
     public partial class AesEncryptionProvider {
         public static byte[] Key => new byte[32];
         public static byte[] IV => new byte[16];
