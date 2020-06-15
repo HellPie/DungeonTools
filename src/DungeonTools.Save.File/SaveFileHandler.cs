@@ -49,7 +49,7 @@ namespace DungeonTools.Save.File {
                 if (reader.ReadByte() != 0) continue;
                 
                 // remove this zero and any after this. supposed to be text but the cipher adds some junk
-                stream.SetLength(reader.BaseStream.Position);
+                stream.SetLength(reader.BaseStream.Position-1);
                 break;
             }
             stream.Position = 0;
