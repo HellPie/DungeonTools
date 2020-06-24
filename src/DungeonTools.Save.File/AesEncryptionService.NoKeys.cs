@@ -1,5 +1,4 @@
 ﻿#if !USE_KEYS
-
 // ReSharper disable CommentTypo
 
 // This class allows the library to compile without errors. Encryption keys are not published with the code as they are
@@ -16,7 +15,7 @@
 namespace DungeonTools.Save.File {
     public partial class AesEncryptionProvider {
         public static byte[] Key => new byte[32];
-        public static byte[] IV => new byte[16];
+        public static byte[] Iv => new byte[16];
     }
 }
 

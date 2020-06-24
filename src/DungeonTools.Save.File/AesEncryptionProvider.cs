@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace DungeonTools.Save.File {
     public partial class AesEncryptionProvider : IEncryptionProvider {
-        public static readonly SymmetricAlgorithm Algorithm = new AesManaged {
+        private static readonly SymmetricAlgorithm Algorithm = new AesManaged {
             Mode = CipherMode.ECB,
             Padding = PaddingMode.Zeros,
             Key = Key,
-            IV = IV,
+            IV = Iv,
         };
 
         /// <inheritdoc />
