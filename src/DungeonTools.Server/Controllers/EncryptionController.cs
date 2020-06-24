@@ -29,7 +29,7 @@ namespace DungeonTools.Server.Controllers {
         }
 
         [HttpPost(ServerConstants.ControllerDecryptionName)]
-        [RequestSizeLimit(1_000_000)]
+        [RequestSizeLimit(5_000_000)]
         public async ValueTask<ActionResult<EncryptionData>> GetDecrypted([FromBody] EncryptionData rawData) {
             string logHeader = $"[{DateTime.Now}] {GetGdprFriendlyAddress(Request.HttpContext.Connection.RemoteIpAddress)}:{Request.HttpContext.Connection.RemotePort} ->";
             using(_logger.BeginScope($"{logHeader} EncryptionController::GetDecrypted")) {
@@ -53,7 +53,7 @@ namespace DungeonTools.Server.Controllers {
         }
 
         [HttpPost(ServerConstants.ControllerEncryptionName)]
-        [RequestSizeLimit(1_000_000)]
+        [RequestSizeLimit(5_000_000)]
         public async ValueTask<ActionResult<EncryptionData>> GetEncrypted([FromBody] EncryptionData rawData) {
             string logHeader = $"[{DateTime.Now}] {GetGdprFriendlyAddress(Request.HttpContext.Connection.RemoteIpAddress)}:{Request.HttpContext.Connection.RemotePort} ->";
             using(_logger.BeginScope($"{logHeader} EncryptionController::GetEncrypted")) {
