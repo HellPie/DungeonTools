@@ -3,13 +3,13 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using DungeonTools.Save.File;
+using DungeonTools.Server.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using static DungeonTools.Save.File.RemoteEncryptionProvider;
 
 namespace DungeonTools.Server.Controllers {
-    [Route("api/[controller]")]
+    [Route(ServerConstants.ControllerName)]
     [ApiController]
     public class EncryptionController : Controller {
         private readonly IEncryptionProvider _encryptionProvider;
@@ -20,7 +20,7 @@ namespace DungeonTools.Server.Controllers {
             _logger = logger;
         }
 
-        [HttpGet("keys")]
+        [HttpGet(ServerConstants.ControllerKeysName)]
         public ActionResult GetKeys() {
             string logHeader = $"[{DateTime.Now}] {GetGdprFriendlyAddress(Request.HttpContext.Connection.RemoteIpAddress)}:{Request.HttpContext.Connection.RemotePort} ->";
             using(_logger.BeginScope($"{logHeader} EncryptionController::GetKeys")) {
@@ -28,9 +28,9 @@ namespace DungeonTools.Server.Controllers {
             }
         }
 
-        [HttpPost("decrypt")]
+        [HttpPost(ServerConstants.ControllerDecryptionName)]
         [RequestSizeLimit(1_000_000)]
-        public async ValueTask<ActionResult<ApiEncryptionModel>> GetDecrypted([FromBody] ApiEncryptionModel rawData) {
+        public async ValueTask<ActionResult<EncryptionData>> GetDecrypted([FromBody] EncryptionData rawData) {
             string logHeader = $"[{DateTime.Now}] {GetGdprFriendlyAddress(Request.HttpContext.Connection.RemoteIpAddress)}:{Request.HttpContext.Connection.RemotePort} ->";
             using(_logger.BeginScope($"{logHeader} EncryptionController::GetDecrypted")) {
                 if(string.IsNullOrWhiteSpace(rawData.Encrypted)) {
@@ -40,8 +40,7 @@ namespace DungeonTools.Server.Controllers {
 
                 try {
                     _logger.LogInformation($"{logHeader} Received {rawData.Encrypted.Length} bytes of data.");
-                    string data = PadBase64String(rawData.Encrypted);
-                    return await Decrypt(data);
+                    return await Decrypt(rawData);
                 } catch(Exception e) {
                     _logger.LogError(e, $"{logHeader} Decryption threw exception.");
 #if DEBUG
@@ -53,9 +52,9 @@ namespace DungeonTools.Server.Controllers {
             }
         }
 
-        [HttpPost("encrypt")]
+        [HttpPost(ServerConstants.ControllerEncryptionName)]
         [RequestSizeLimit(1_000_000)]
-        public async ValueTask<ActionResult<ApiEncryptionModel>> GetEncrypted([FromBody] ApiEncryptionModel rawData) {
+        public async ValueTask<ActionResult<EncryptionData>> GetEncrypted([FromBody] EncryptionData rawData) {
             string logHeader = $"[{DateTime.Now}] {GetGdprFriendlyAddress(Request.HttpContext.Connection.RemoteIpAddress)}:{Request.HttpContext.Connection.RemotePort} ->";
             using(_logger.BeginScope($"{logHeader} EncryptionController::GetEncrypted")) {
                 if(string.IsNullOrWhiteSpace(rawData.Decrypted)) {
@@ -65,8 +64,7 @@ namespace DungeonTools.Server.Controllers {
 
                 try {
                     _logger.LogInformation($"{logHeader} Received {rawData.Decrypted.Length} bytes of data.");
-                    string data = PadBase64String(rawData.Decrypted);
-                    return await Encrypt(data);
+                    return await Encrypt(rawData);
                 } catch(Exception e) {
                     _logger.LogError(e, $"{logHeader} Encryption threw exception.");
 #if DEBUG
@@ -78,17 +76,17 @@ namespace DungeonTools.Server.Controllers {
             }
         }
 
-        private async ValueTask<ApiEncryptionModel> Decrypt(string base64Data) {
-            await using MemoryStream encStream = new MemoryStream(Convert.FromBase64String(base64Data));
+        private async ValueTask<EncryptionData> Decrypt(EncryptionData rawData) {
+            await using Stream encStream = rawData.EncryptedStream!;
             await using Stream decStream = await _encryptionProvider.DecryptAsync(encStream);
             SaveFileHandler.RemoveTrailingZeroes(decStream);
-            return new ApiEncryptionModel {Decrypted = await GetBase64Data(decStream)};
+            return await EncryptionData.From(null, decStream);
         }
 
-        private async ValueTask<ApiEncryptionModel> Encrypt(string base64Data) {
-            await using MemoryStream decStream = new MemoryStream(Convert.FromBase64String(base64Data));
+        private async ValueTask<EncryptionData> Encrypt(EncryptionData rawData) {
+            await using Stream decStream = rawData.DecryptedStream!;
             await using Stream encStream = await _encryptionProvider.EncryptAsync(decStream);
-            return new ApiEncryptionModel {Encrypted = await GetBase64Data(encStream)};
+            return await EncryptionData.From(encStream, null);
         }
 
         private static string GetGdprFriendlyAddress(IPAddress address) {

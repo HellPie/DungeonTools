@@ -3,58 +3,40 @@ using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DungeonTools.Server.Shared;
 
 namespace DungeonTools.Save.File {
     public class RemoteEncryptionProvider : IEncryptionProvider {
 #if DEBUG
-        private const string ClientAddress = "http://127.0.0.1:5000";
+        private const string ClientAddress = ServerConstants.LocalServer;
 #else
-        private const string ClientAddress = "https://dungeons.tools";
+        private const string ClientAddress = ServerConstants.RemoteServer;
 #endif
-        public class ApiEncryptionModel {
-            public string? Encrypted { get; set; }
-            public string? Decrypted { get; set; }
-        }
 
         private static readonly HttpClient Client = new HttpClient {
             BaseAddress = new Uri(ClientAddress),
         };
 
         private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            IgnoreReadOnlyProperties = true,
         };
 
         /// <inheritdoc />
         public async ValueTask<Stream> DecryptAsync(Stream encrypted) {
-            ApiEncryptionModel model = new ApiEncryptionModel {Encrypted = await GetBase64Data(encrypted)};
-            ApiEncryptionModel body = await CallEndpoint(model, "api/encryption/decrypt");
-            MemoryStream output = new MemoryStream(Convert.FromBase64String(PadBase64String(body.Decrypted!)));
-            return output;
+            return (await CallEndpoint(encrypted, null, ServerConstants.DecryptEndpoint)).DecryptedStream!;
         }
 
         /// <inheritdoc />
         public async ValueTask<Stream> EncryptAsync(Stream decrypted) {
-            ApiEncryptionModel model = new ApiEncryptionModel {Decrypted = await GetBase64Data(decrypted)};
-            ApiEncryptionModel response = await CallEndpoint(model, "api/encryption/encrypt");
-            MemoryStream output = new MemoryStream(Convert.FromBase64String(PadBase64String(response.Encrypted!)));
-            return output;
+            return (await CallEndpoint(null, decrypted, ServerConstants.EncryptEndpoint)).EncryptedStream!;
         }
 
-        private static async ValueTask<ApiEncryptionModel> CallEndpoint(ApiEncryptionModel input, string endpoint) {
-            using HttpContent content = new StringContent(JsonSerializer.Serialize(input));
+        private static async ValueTask<EncryptionData> CallEndpoint(Stream? encrypted, Stream? decrypted, string endpoint) {
+            using HttpContent content = new StringContent(JsonSerializer.Serialize(await EncryptionData.From(encrypted, decrypted)));
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = await Client.PostAsync(endpoint, content);
-            return JsonSerializer.Deserialize<ApiEncryptionModel>(await response.Content.ReadAsStringAsync(), SerializerOptions);
-        }
-
-        public static async ValueTask<string> GetBase64Data(Stream stream) {
-            byte[] data = new byte[stream.Length-stream.Position];
-            await stream.ReadAsync(data);
-            return Convert.ToBase64String(data);
-        }
-
-        public static string PadBase64String(string base64) {
-            return base64.PadRight(base64.Length + (4 - base64.Length % 4) % 4, '=');
+            return JsonSerializer.Deserialize<EncryptionData>(await response.Content.ReadAsStringAsync(), SerializerOptions);
         }
     }
 }

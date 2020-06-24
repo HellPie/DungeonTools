@@ -9,4 +9,8 @@
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DefineConstants>USE_KEYS</DefineConstants>
     </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DungeonTools.Server.Shared\DungeonTools.Server.Shared.csproj" />
+    </ItemGroup>
 </Project>
