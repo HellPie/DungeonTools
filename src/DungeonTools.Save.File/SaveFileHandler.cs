@@ -34,6 +34,7 @@ namespace DungeonTools.Save.File {
                 throw new Exception("File started with magic but next 4 bytes were non-zero");
             }
 
+            stream.Position = position;
             return true;
         }
 
