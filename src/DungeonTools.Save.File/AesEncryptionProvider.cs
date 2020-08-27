@@ -1,14 +1,15 @@
-﻿using System.IO;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-
-namespace DungeonTools.Save.File {
+﻿namespace DungeonTools.Save.File {
     public partial class AesEncryptionProvider : IEncryptionProvider {
         private static readonly SymmetricAlgorithm Algorithm = new AesManaged {
             Mode = CipherMode.ECB,
             Padding = PaddingMode.Zeros,
+#if USE_KEYS
             Key = Key,
             IV = Iv,
+#else
+            Key = new byte[32],
+            IV = new bte[16],
+#endif
         };
 
         /// <inheritdoc />
