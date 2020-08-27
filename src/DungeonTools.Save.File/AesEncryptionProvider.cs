@@ -11,12 +11,10 @@ namespace DungeonTools.Save.File {
             Key = new byte[32],
         };
 
-        /// <inheritdoc />
         public static ValueTask<Stream> DecryptAsync(Stream encrypted) {
             return TransformAsync(encrypted, Algorithm.CreateDecryptor());
         }
 
-        /// <inheritdoc />
         public static ValueTask<Stream> EncryptAsync(Stream decrypted) {
             return TransformAsync(decrypted, Algorithm.CreateEncryptor());
         }

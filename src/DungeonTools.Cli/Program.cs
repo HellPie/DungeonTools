@@ -62,7 +62,7 @@ namespace DungeonTools.Cli {
                 idealFileName = $"{Path.GetFileNameWithoutExtension(idealFileName)}_{(isEncrypted ? "Decrypted" : "Encrypted")}{targetExtension}";
             }
 
-            string outFileName = Path.Combine(fileInfo.DirectoryName, idealFileName);
+            string outFileName = Path.Combine(fileInfo.DirectoryName ?? ".", idealFileName);
             if(overwrite || !File.Exists(outFileName)) {
                 return outFileName;
             }

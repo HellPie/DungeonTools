@@ -75,6 +75,10 @@ namespace DungeonTools.Server.Controllers {
         }
 
         private async ValueTask<EncryptionData> Decrypt(EncryptionData rawData) {
+            if(rawData.EncryptedStream == null) {
+                throw new ArgumentNullException(nameof(rawData.EncryptedStream), "Decrypted stream cannot be null.");
+            }
+
             await using Stream encStream = rawData.EncryptedStream!;
             await using Stream decStream = await AesEncryptionProvider.DecryptAsync(encStream);
             SaveFileHandler.RemoveTrailingZeroes(decStream);
@@ -82,13 +86,17 @@ namespace DungeonTools.Server.Controllers {
         }
 
         private async ValueTask<EncryptionData> Encrypt(EncryptionData rawData) {
+            if(rawData.DecryptedStream == null) {
+                throw new ArgumentNullException(nameof(rawData.DecryptedStream), "Decrypted stream cannot be null.");
+            }
+
             await using Stream decStream = rawData.DecryptedStream!;
             await using Stream encStream = await AesEncryptionProvider.EncryptAsync(decStream);
             return await EncryptionData.From(encStream, null);
         }
 
-        private static string GetGdprFriendlyAddress(IPAddress address) {
-            string ipAddress = address.ToString();
+        private static string GetGdprFriendlyAddress(IPAddress? address) {
+            string ipAddress = address?.ToString() ?? "255.255.255.255";
             return ipAddress.Substring(0, ipAddress.Length - 3).PadRight(3, '#');
         }
     }
