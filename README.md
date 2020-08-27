@@ -37,7 +37,7 @@ Refer to the [official `dotnet` documentation](https://docs.microsoft.com/en-us/
 ---
 
 To compile the CLI tool I simply run:
-> `dotnet publish .\src\DungeonTools.Cli\DungeonTools.Cli.csproj --configuration Release --output .\out\ -p:PublishTrimmed=true --runtime win-x64 --self-contained true`
+> `dotnet publish .\src\DungeonTools.Cli\DungeonTools.Cli.csproj --configuration Release --output .\out\`
 
 To compile the server the process relies on the provided [`Dockerfile`](./Dockerfile) and some `docker-compose` configuration to put it behind a reverse proxy with HTTPS support.
 
