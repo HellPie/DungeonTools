@@ -42,12 +42,12 @@ namespace DungeonTools.Cli {
         }
 
         private static async ValueTask<Stream?> Decrypt(Stream data) {
-            Stream decrypted = await EncryptionProviders.Current.DecryptAsync(data);
+            Stream decrypted = await AesEncryptionProvider.DecryptAsync(data);
             return SaveFileHandler.RemoveTrailingZeroes(decrypted);
         }
 
         private static async ValueTask<Stream?> Encrypt(Stream data) {
-            await using Stream encrypted = await EncryptionProviders.Current.EncryptAsync(data);
+            await using Stream encrypted = await AesEncryptionProvider.EncryptAsync(data);
             return SaveFileHandler.PrependMagicToEncrypted(encrypted);
         }
 

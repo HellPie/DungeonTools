@@ -12,11 +12,9 @@ namespace DungeonTools.Server.Controllers {
     [Route(ServerConstants.ControllerName)]
     [ApiController]
     public class EncryptionController : Controller {
-        private readonly IEncryptionProvider _encryptionProvider;
         private readonly ILogger<EncryptionController> _logger;
 
-        public EncryptionController(IEncryptionProvider provider, ILogger<EncryptionController> logger) {
-            _encryptionProvider = provider;
+        public EncryptionController(ILogger<EncryptionController> logger) {
             _logger = logger;
         }
 
@@ -78,14 +76,14 @@ namespace DungeonTools.Server.Controllers {
 
         private async ValueTask<EncryptionData> Decrypt(EncryptionData rawData) {
             await using Stream encStream = rawData.EncryptedStream!;
-            await using Stream decStream = await _encryptionProvider.DecryptAsync(encStream);
+            await using Stream decStream = await AesEncryptionProvider.DecryptAsync(encStream);
             SaveFileHandler.RemoveTrailingZeroes(decStream);
             return await EncryptionData.From(null, decStream);
         }
 
         private async ValueTask<EncryptionData> Encrypt(EncryptionData rawData) {
             await using Stream decStream = rawData.DecryptedStream!;
-            await using Stream encStream = await _encryptionProvider.EncryptAsync(decStream);
+            await using Stream encStream = await AesEncryptionProvider.EncryptAsync(decStream);
             return await EncryptionData.From(encStream, null);
         }
 

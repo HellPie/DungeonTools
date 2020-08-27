@@ -1,19 +1,23 @@
-﻿namespace DungeonTools.Save.File {
-    public partial class AesEncryptionProvider : IEncryptionProvider {
+﻿using System.IO;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+
+namespace DungeonTools.Save.File {
+    public static class AesEncryptionProvider {
         private static readonly SymmetricAlgorithm Algorithm = new AesManaged {
             Mode = CipherMode.ECB,
             Padding = PaddingMode.Zeros,
-            Key = Key,
-            IV = Iv,
+            IV = new byte[16],
+            Key = new byte[32],
         };
 
         /// <inheritdoc />
-        public ValueTask<Stream> DecryptAsync(Stream encrypted) {
+        public static ValueTask<Stream> DecryptAsync(Stream encrypted) {
             return TransformAsync(encrypted, Algorithm.CreateDecryptor());
         }
 
         /// <inheritdoc />
-        public ValueTask<Stream> EncryptAsync(Stream decrypted) {
+        public static ValueTask<Stream> EncryptAsync(Stream decrypted) {
             return TransformAsync(decrypted, Algorithm.CreateEncryptor());
         }
 
