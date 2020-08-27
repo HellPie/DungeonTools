@@ -3,13 +3,8 @@
         private static readonly SymmetricAlgorithm Algorithm = new AesManaged {
             Mode = CipherMode.ECB,
             Padding = PaddingMode.Zeros,
-#if USE_KEYS
             Key = Key,
             IV = Iv,
-#else
-            Key = new byte[32],
-            IV = new bte[16],
-#endif
         };
 
         /// <inheritdoc />

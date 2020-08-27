@@ -5,10 +5,6 @@
         <Description>Processing of encrypted data for DungeonTools.</Description>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <DefineConstants>USE_KEYS</DefineConstants>
-    </PropertyGroup>
-
     <ItemGroup>
         <ProjectReference Include="..\DungeonTools.Server.Shared\DungeonTools.Server.Shared.csproj" />
     </ItemGroup>
