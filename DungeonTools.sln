@@ -9,10 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Save.File", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Cli", "src\DungeonTools.Cli\DungeonTools.Cli.csproj", "{76348AD8-394D-4A88-A19D-ABF9699529B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Server", "src\DungeonTools.Server\DungeonTools.Server.csproj", "{BCDF3715-963B-4502-8120-F9221611DB7F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTools.Server.Shared", "src\DungeonTools.Server.Shared\DungeonTools.Server.Shared.csproj", "{9CC26E70-5DC8-42A6-B48A-C4BA7396F3FC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +17,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{72A9DB45-34AB-4C3C-A346-9901C1D7A69C} = {FD41756C-3F0D-4C70-BFEE-A83570467BFF}
 		{76348AD8-394D-4A88-A19D-ABF9699529B4} = {524FDF31-71BE-46CD-BC87-7BD9782157A9}
-		{BCDF3715-963B-4502-8120-F9221611DB7F} = {524FDF31-71BE-46CD-BC87-7BD9782157A9}
-		{9CC26E70-5DC8-42A6-B48A-C4BA7396F3FC} = {FD41756C-3F0D-4C70-BFEE-A83570467BFF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{76348AD8-394D-4A88-A19D-ABF9699529B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -33,13 +27,5 @@ Global
 		{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72A9DB45-34AB-4C3C-A346-9901C1D7A69C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BCDF3715-963B-4502-8120-F9221611DB7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCDF3715-963B-4502-8120-F9221611DB7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCDF3715-963B-4502-8120-F9221611DB7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCDF3715-963B-4502-8120-F9221611DB7F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9CC26E70-5DC8-42A6-B48A-C4BA7396F3FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CC26E70-5DC8-42A6-B48A-C4BA7396F3FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CC26E70-5DC8-42A6-B48A-C4BA7396F3FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CC26E70-5DC8-42A6-B48A-C4BA7396F3FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
