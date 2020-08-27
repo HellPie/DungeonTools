@@ -15,7 +15,7 @@ namespace DungeonTools.Server {
 
         public void ConfigureServices(IServiceCollection services) {
             services.AddControllers();
-            services.AddSingleton(EncryptionProviders.Local);
+            services.AddSingleton(EncryptionProviders.Current);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {

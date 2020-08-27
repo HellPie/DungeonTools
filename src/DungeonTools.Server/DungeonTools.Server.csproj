@@ -7,9 +7,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\DungeonTools.Server.Shared\DungeonTools.Server.Shared.csproj" />
-        <ProjectReference Include="..\DungeonTools.Save.File\DungeonTools.Save.File.csproj">
-            <!-- Always compile Server using AES encryption keys -->
-            <Properties>DefineConstants=USE_KEYS</Properties>
-        </ProjectReference>
+        <ProjectReference Include="..\DungeonTools.Save.File\DungeonTools.Save.File.csproj" />
     </ItemGroup>
 </Project>

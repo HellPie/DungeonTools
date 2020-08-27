@@ -5,7 +5,7 @@
         <Description>Processing of encrypted data for DungeonTools.</Description>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <PropertyGroup>
         <DefineConstants>USE_KEYS</DefineConstants>
     </PropertyGroup>
 
