@@ -3,13 +3,13 @@
         <Product>DungeonTools</Product>
         <Company>The DungeonTools Maintainers</Company>
 
-        <VersionPrefix>1.3.0</VersionPrefix>
-        <VersionSuffix>beta</VersionSuffix>
-        <VersionDungeons>4142545</VersionDungeons>
+        <VersionPrefix>1.4.0</VersionPrefix>
+        <VersionSuffix>stable</VersionSuffix>
+        <VersionDungeons>1.3.2.0</VersionDungeons>
 
         <Version Condition="'$(Configuration)' == 'Release'">$(VersionPrefix)</Version>
         <Version Condition="'$(Configuration)' == 'Debug'">$(VersionPrefix)-$(VersionSuffix)</Version>
-        <InformationalVersion>$(Version) ($(VersionDungeons))</InformationalVersion>
+        <InformationalVersion>$(Version) (MCD $(VersionDungeons))</InformationalVersion>
     </PropertyGroup>
 
     <PropertyGroup>
